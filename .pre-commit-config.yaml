@@ -3,7 +3,8 @@ repos:
     rev: 22.1.0
     hooks:
       - id: black
-        language_version: python3.8
+        additional_dependencies: ['click==8.0.4']
+        language_version: python3.10
         args: ["--line-length=79"]
   - repo: https://gitlab.com/pycqa/flake8
     rev: 3.9.2
@@ -22,4 +23,9 @@ repos:
       - id: mypy
         args: [--no-strict-optional, --ignore-missing-imports]
         additional_dependencies:
+          - "django"
+          - "djangorestframework"
           - "django-stubs"
+          - "psycopg2-binary"
+          - "django-environ"
+          - "djangorestframework-stubs"
