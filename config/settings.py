@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "rest_framework",
+    "account",
 ]
 
 MIDDLEWARE = [
@@ -90,7 +92,7 @@ DATABASES = {
     # The db() method is an alias for db_url().
     "default": env.db(),
     # read os.environ['SQLITE_URL']
-    "extra": env.db_url("SQLITE_URL", default=":memory:"),
+    # "extra": env.db_url("SQLITE_URL", default=":memory:"),
 }
 
 # Password validation
