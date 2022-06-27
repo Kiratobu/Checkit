@@ -1,8 +1,7 @@
 # from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import serializers
 
-from .models import User
-
+from account.models import User
 
 class RegisterUserSerializer(serializers.ModelSerializer):
     """Serializer for user registration"""
@@ -30,6 +29,11 @@ class RegisterUserSerializer(serializers.ModelSerializer):
         }
 
     def create(self, validated_data):
+        user = User.objects.create(**validated_data)
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
+
         """
         Creates new user with/without referral code.
         """
@@ -41,10 +45,13 @@ class RegisterUserSerializer(serializers.ModelSerializer):
         except ObjectDoesNotExist:
             pass
         """
+        """
         password = validated_data.pop("password")
         user = User.objects.create(**validated_data)
         user.set_password(password)
         user.save()
+        print(password)
+        """
         """
         if referred_by:
             referral = Referral.objects.create(
@@ -53,7 +60,7 @@ class RegisterUserSerializer(serializers.ModelSerializer):
                 )
             referral.save()
         """
-        return user
+        #return user
 
 
 class LoginUserSerializer(serializers.ModelSerializer):

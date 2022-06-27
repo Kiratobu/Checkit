@@ -12,6 +12,7 @@ psycopg2 = "*"
 pillow = "*"
 djangorestframework-simplejwt = "*"
 django-stubs = "*"
+django-extra-fields = "*"
 
 [dev-packages]
 flake8 = "*"
@@ -21,4 +22,4 @@ isort = "*"
 pre-commit = "*"
 
 [requires]
-python_version = "3.10"
+python_version = "3.9"

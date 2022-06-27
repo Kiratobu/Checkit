@@ -2,7 +2,8 @@
 
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
-
+from django.contrib.auth.models import User
+from django.conf import settings
 # from django.utils.crypto import get_random_string
 
 
@@ -27,6 +28,8 @@ class UserManager(BaseUserManager):
             last_name=last_name,
             **extra_fields,
         )
+        print(user)
+        print(user.password)
         user.set_password()
         user.save()
         return user
@@ -72,8 +75,7 @@ class User(AbstractBaseUser):
     def __str__(self):
         return f"{self.email}"
 
-    """
     def save(self, *args, **kwargs):
-        self.referral_token = f'{self.email}&{get_random_string(length=30)}'
+        #self.referral_token = f'{self.email}&{get_random_string(length=30)}'
         super().save(*args, **kwargs)
-    """
+    
