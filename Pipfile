@@ -13,6 +13,8 @@ pillow = "*"
 djangorestframework-simplejwt = "*"
 django-stubs = "*"
 django-extra-fields = "*"
+gunicorn = "*"
+django-on-heroku = "*"
 
 [dev-packages]
 flake8 = "*"

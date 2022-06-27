@@ -1,0 +1,1 @@
+web: gunicorn battle-gnomes-backend.wsgi --log-file 
