@@ -15,6 +15,7 @@ django-stubs = "*"
 django-extra-fields = "*"
 gunicorn = "*"
 django-on-heroku = "*"
+whitenoise = "*"
 
 [dev-packages]
 flake8 = "*"
