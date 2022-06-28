@@ -9,4 +9,4 @@ image: web
 command:
 - python manage.py collectstatic --noinput
 run:
-web: gunicorn config.wsgi
+web: gunicorn battle-gnomes-backend.wsgi
