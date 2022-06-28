@@ -16,6 +16,7 @@ django-extra-fields = "*"
 gunicorn = "*"
 django-on-heroku = "*"
 whitenoise = "*"
+dj-database-url = "*"
 
 [dev-packages]
 flake8 = "*"

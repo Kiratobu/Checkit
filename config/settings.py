@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from pathlib import Path
 
 import environ
+import dj_database_url
 
 env = environ.Env(
     # set casting, default value
@@ -95,6 +96,8 @@ DATABASES = {
     # read os.environ['SQLITE_URL']
     # "extra": env.db_url("SQLITE_URL", default=":memory:"),
 }
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
