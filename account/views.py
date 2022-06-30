@@ -1,14 +1,13 @@
 from django.contrib.auth import authenticate
 
+# from django.shortcuts import render
+from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.generics import CreateAPIView
 from rest_framework.response import Response
-from rest_framework.views import APIView
-from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework.viewsets import ModelViewSet
 
-from account.models import User
-from account.serializers import RegisterUserSerializer, LoginUserSerializer
+from .models import User
+from .serializers import LoginUserSerializer, RegisterUserSerializer
 
 
 class RegisterUserView(CreateAPIView):
@@ -21,15 +20,14 @@ class LoginUserView(CreateAPIView):
     queryset = User.objects.all()
 
     def post(self, request, *args, **kwargs):
-        email = request.data.get('email')
-        password = request.data.get('password')
-        print(User.objects.filter(email=email))
-        user = authenticate(email=email)
-        if user is None:
-            raise AuthenticationFailed("Пользователь с такими учетными данными не найден!")
+        email = request.data.get("email")
+        password = request.data.get("password")
+        user = authenticate(request, username=email, password=password)
 
-        if not user.check_password(password):
-            raise AuthenticationFailed("Неверный пароль!")
+        if user is None:
+            raise AuthenticationFailed(
+                f"{user} Пользователь с такими учетными данными не найден!"
+            )
 
         refresh = RefreshToken.for_user(user)
 

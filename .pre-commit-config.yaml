@@ -23,6 +23,7 @@ repos:
       - id: mypy
         args: [--no-strict-optional, --ignore-missing-imports]
         additional_dependencies:
+          - "djangorestframework-simplejwt"
           - "django"
           - "djangorestframework"
           - "django-stubs"

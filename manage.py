@@ -5,7 +5,8 @@ import sys
 
 import django
 
-print (django.get_version())
+print(django.get_version())
+
 
 def main() -> None:
     """Run administrative tasks."""
