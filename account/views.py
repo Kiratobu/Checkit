@@ -30,7 +30,7 @@ class LoginUserView(CreateAPIView):
             )
 
         refresh = RefreshToken.for_user(user)
-
+        
         return Response(
             {
                 "status": "Вы, успешно авторизовались!",
