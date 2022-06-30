@@ -14,6 +14,7 @@ from datetime import timedelta
 from pathlib import Path
 
 import environ
+
 import dj_database_url
 
 env = environ.Env(
@@ -50,13 +51,20 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    'rest_framework.permissions',
+    'django_filters',
+    'corsheaders',
     "account",
     "rest_framework_simplejwt",
 ]
 
+
+AUTH_USER_MODEL = 'account.User'
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -177,4 +185,3 @@ SIMPLE_JWT = {
 
 AUTHENTICATION_BACKENDS = ("django.contrib.auth.backends.ModelBackend",)
 
-AUTH_USER_MODEL = "account.User"
