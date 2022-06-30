@@ -18,6 +18,8 @@ django-on-heroku = "*"
 whitenoise = "*"
 dj-database-url = "*"
 python-decouple = "*"
+django-filter = "*"
+django-cors-headers = "*"
 
 [dev-packages]
 flake8 = "*"
