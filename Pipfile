@@ -20,6 +20,7 @@ dj-database-url = "*"
 python-decouple = "*"
 django-filter = "*"
 django-cors-headers = "*"
+django-wsgi2 = "*"
 
 [dev-packages]
 flake8 = "*"

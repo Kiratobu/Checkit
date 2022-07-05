@@ -14,6 +14,7 @@ from datetime import timedelta
 from pathlib import Path
 
 import environ
+import os
 
 import dj_database_url
 
@@ -42,6 +43,7 @@ ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 
 
 # Application definition
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 INSTALLED_APPS = [
     "django.contrib.admin",
