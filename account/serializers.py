@@ -1,7 +1,8 @@
 # from django.core.exceptions import ObjectDoesNotExist
+
 from rest_framework import serializers
 
-from .models import User
+from .models import Event, EventType, User, UserParticipant
 
 
 class RegisterUserSerializer(serializers.ModelSerializer):
@@ -60,3 +61,38 @@ class LoginUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["id", "email", "password"]
+
+
+class UpdateUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+            "id",
+            "email",
+            "number",
+            "first_name",
+            "last_name",
+        ]
+
+
+class EventSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Event
+        fields = "__all__"
+
+
+class UserParticipantSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserParticipant
+        fields = "__all__"
+
+
+class EventTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        models = EventType
+        fields = "__all__"
+
+
+class RoomSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = "__all__"

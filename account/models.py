@@ -1,6 +1,10 @@
 # from email.policy import default
 
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import (
+    AbstractBaseUser,
+    BaseUserManager,
+    PermissionsMixin,
+)
 from django.db import models
 
 # from django.utils.crypto import get_random_string
@@ -48,12 +52,13 @@ class UserManager(BaseUserManager):
         )
         user.set_password(password)
         user.is_superuser = True
+        user.is_staff = True
         user.is_admin = True
         user.save()
         return user
 
 
-class User(AbstractBaseUser, TimeStamp):
+class User(AbstractBaseUser, PermissionsMixin, TimeStamp):
     """User model"""
 
     first_name = models.CharField(max_length=30, blank=False, null=False)
@@ -63,7 +68,7 @@ class User(AbstractBaseUser, TimeStamp):
         max_length=30, blank=False, unique=True, null=False
     )
     # referral_token = models.CharField(max_length=255)
-    is_admin = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=False)
     img = models.ImageField(default=None, blank=True, null=True)
     date_of_birth = models.DateField(blank=True, null=True)
 
@@ -85,6 +90,8 @@ class User(AbstractBaseUser, TimeStamp):
 
 
 class Event(TimeStamp):
+    """Event model"""
+
     title = models.CharField(max_length=255, verbose_name="Заголовок")
     date = models.DateField(verbose_name="Дата события")
     description = models.TextField(null=True, verbose_name="Описание")
@@ -105,6 +112,7 @@ class Event(TimeStamp):
 
 
 class Repeat(models.Model):
+    """Repetition model"""
 
     MONDAY = "MON"
     TUESDAY = "TUE"
@@ -138,6 +146,7 @@ class Repeat(models.Model):
 
 
 class Notification(models.Model):
+    """Notification model"""
 
     FIVE_MIN = "five_minutes"
     TEN_MIN = "ten_minutes"
@@ -165,6 +174,8 @@ class Notification(models.Model):
 
 
 class UserParticipant(TimeStamp):
+    """User Participant model"""
+
     STATUS_ACCEPTED = "accepted"
     STATUS_DECLINED = "declined"
     STATUS_DELIGATED = "deligated"
@@ -191,6 +202,8 @@ class UserParticipant(TimeStamp):
 
 
 class EventType(models.Model):
+
+    """Event type model"""
 
     RED = "R"
     GREEN = "G"
@@ -219,6 +232,8 @@ class EventType(models.Model):
 
 
 class Room(TimeStamp):
+    """Room model"""
+
     title = models.CharField(max_length=255, verbose_name="Заголовок")
     description = models.TextField(verbose_name="Описание")
     capacity = models.PositiveIntegerField(verbose_name="Вместимость")
@@ -232,6 +247,8 @@ class Room(TimeStamp):
 
 
 class ImageRoom(models.Model):
+    """Image room model"""
+
     name = models.CharField(max_length=255)
     id_room = models.ForeignKey(Room, on_delete=models.CASCADE)
 
