@@ -55,9 +55,9 @@ INSTALLED_APPS = [
     "rest_framework",
     'rest_framework.permissions',
     'django_filters',
-    'corsheaders',
     "account",
     "rest_framework_simplejwt",
+    'app',
 ]
 
 
