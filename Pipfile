@@ -21,6 +21,7 @@ python-decouple = "*"
 django-filter = "*"
 django-cors-headers = "*"
 django-wsgi2 = "*"
+requests = "*"
 
 [dev-packages]
 flake8 = "*"
