@@ -16,11 +16,24 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from account.views import LoginUserView, RegisterUserView, UpdateUserView
+from account.views import LoginUserView, RegisterUserView
+from app.views import (
+    BranchPostView,
+    BranchView,
+    OrganisationView,
+    PostView,
+    UserPostView,
+)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("register/", RegisterUserView.as_view(), name="createuser"),
     path("login/", LoginUserView.as_view(), name="authuser"),
-    path("update/<int:pk>", UpdateUserView.as_view()),
+    path(
+        "organisation/", OrganisationView.as_view(), name="create organisation"
+    ),
+    path("post/", PostView.as_view(), name="create Post"),
+    path("branchpost/", BranchPostView.as_view(), name="create BranchPost"),
+    path("branch/", BranchView.as_view(), name="create Branch"),
+    path("userpost/", UserPostView.as_view(), name="create UserPost"),
 ]

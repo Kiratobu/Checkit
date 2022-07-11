@@ -10,9 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+import os
 from datetime import timedelta
 from pathlib import Path
 
+import dj_database_url
 import environ
 
 env = environ.Env(
@@ -40,6 +42,7 @@ ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 
 
 # Application definition
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -49,9 +52,15 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "rest_framework.permissions",
+    "django_filters",
     "account",
     "rest_framework_simplejwt",
+    "app",
 ]
+
+
+AUTH_USER_MODEL = "account.User"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -96,6 +105,8 @@ DATABASES = {
     # read os.environ['SQLITE_URL']
     # "extra": env.db_url("SQLITE_URL", default=":memory:"),
 }
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES["default"].update(db_from_env)
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -172,5 +183,3 @@ SIMPLE_JWT = {
 }
 
 AUTHENTICATION_BACKENDS = ("django.contrib.auth.backends.ModelBackend",)
-
-AUTH_USER_MODEL = "account.User"

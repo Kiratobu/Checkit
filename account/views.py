@@ -2,16 +2,12 @@ from django.contrib.auth import authenticate
 
 # from django.shortcuts import render
 from rest_framework.exceptions import AuthenticationFailed
-from rest_framework.generics import CreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import CreateAPIView
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from .models import User
-from .serializers import (
-    LoginUserSerializer,
-    RegisterUserSerializer,
-    UpdateUserSerializer,
-)
+from .serializers import LoginUserSerializer, RegisterUserSerializer
 
 
 class RegisterUserView(CreateAPIView):
@@ -42,9 +38,3 @@ class LoginUserView(CreateAPIView):
                 "access": str(refresh.access_token),
             }
         )
-
-
-class UpdateUserView(RetrieveUpdateDestroyAPIView):
-
-    serializer_class = UpdateUserSerializer
-    queryset = User.objects.all()

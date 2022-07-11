@@ -30,3 +30,6 @@ repos:
           - "psycopg2-binary"
           - "django-environ"
           - "djangorestframework-stubs"
+          - "dj-database-url"
+          - "django-filter"
+          - "django-extra-fields"
