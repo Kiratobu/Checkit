@@ -20,6 +20,7 @@ from account.views import LoginUserView, RegisterUserView
 from app.views import (
     BranchPostView,
     BranchView,
+    EventView,
     OrganisationView,
     PostView,
     UserPostView,
@@ -36,4 +37,5 @@ urlpatterns = [
     path("branchpost/", BranchPostView.as_view(), name="create BranchPost"),
     path("branch/", BranchView.as_view(), name="create Branch"),
     path("userpost/", UserPostView.as_view(), name="create UserPost"),
+    path("event/", EventView.as_view(), name="create Event"),
 ]

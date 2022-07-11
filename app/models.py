@@ -14,9 +14,15 @@ class Organisation(models.Model):
         User, on_delete=models.CASCADE, default=None, null=True, blank=True
     )
 
+    def __str__(self):
+        return f"{self.title}"
+
 
 class Post(models.Model):
     title = models.CharField(max_length=255, blank=False, null=False)
+
+    def __str__(self):
+        return f"{self.title}"
 
 
 class Branch(models.Model):
@@ -61,13 +67,45 @@ class BranchPost(models.Model):
 class Event(TimeStamp):
     """Event model"""
 
+    MONDAY = "MON"
+    TUESDAY = "TUE"
+    WEDNESDAY = "WED"
+    THURSDAY = "THU"
+    FRIDAY = "FRI"
+    SATURDAY = "SAT"
+    SUNDAY = "SUN"
+    EVERY_WEEKDAY = "EWD"
+    EVERY_DAY = "ED"
+    EVERY_WEEK = "EW"
+    EVERY_MONTH = "EM"
+    EVERY_YEAR = "EY"
+
+    REPEAT_CHOICES = (
+        (MONDAY, "Каждый Понедельник"),
+        (TUESDAY, "Каждый Вторник"),
+        (WEDNESDAY, "Каждую Среду"),
+        (THURSDAY, "Каждый Четверг"),
+        (FRIDAY, "Каждую Пятницу"),
+        (SATURDAY, "Каждую Субботу"),
+        (SUNDAY, "Каждое Воскресенье"),
+        (EVERY_DAY, "Каждый день"),
+        (EVERY_WEEKDAY, "Каждый будний день"),
+        (EVERY_WEEK, "Каждую неделю"),
+        (EVERY_MONTH, "Каждый месяц"),
+        (EVERY_YEAR, "Каждый год"),
+    )
+
     title = models.CharField(max_length=255, verbose_name="Заголовок")
     date = models.DateField(verbose_name="Дата события")
     description = models.TextField(null=True, verbose_name="Описание")
     time_from = models.TimeField(verbose_name="Время начала")
     time_to = models.TimeField(verbose_name="Время окончания")
-    repeat = models.ManyToManyField(
-        "Repeat",
+    repeat = models.CharField(
+        max_length=255,
+        choices=REPEAT_CHOICES,
+        verbose_name="Повторение",
+        blank=True,
+        null=True,
     )
     is_private = models.BooleanField(
         default=True, verbose_name="Является личным событием"
@@ -144,40 +182,6 @@ class UserParticipant(TimeStamp):
 
     def __str__(self):
         return f"{self.user_id}"
-
-
-class Repeat(models.Model):
-    """Repetition model"""
-
-    MONDAY = "MON"
-    TUESDAY = "TUE"
-    WEDNESDAY = "WED"
-    THURSDAY = "THU"
-    FRIDAY = "FRI"
-    SATURDAY = "SAT"
-    SUNDAY = "SUN"
-    EVERY_DAY = "ED"
-    EVERY_WEEK = "EW"
-    EVERY_MONTH = "EM"
-    EVERY_YEAR = "EY"
-
-    REPEAT_CHOICES = (
-        (MONDAY, "Каждый Понедельник"),
-        (TUESDAY, "Каждый Вторник"),
-        (WEDNESDAY, "Каждую Среду"),
-        (THURSDAY, "Каждый Четверг"),
-        (FRIDAY, "Каждую Пятницу"),
-        (SATURDAY, "Каждую Субботу"),
-        (SUNDAY, "Каждое Воскресенье"),
-        (EVERY_DAY, "Каждый день"),
-        (EVERY_WEEK, "Каждую неделю"),
-        (EVERY_MONTH, "Каждый месяц"),
-        (EVERY_YEAR, "Каждый год"),
-    )
-
-    repetition = models.CharField(
-        max_length=255, choices=REPEAT_CHOICES, null=True
-    )
 
 
 class Notification(models.Model):

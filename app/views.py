@@ -1,9 +1,10 @@
 from rest_framework import generics
 
-from app.models import Branch, BranchPost, Organisation, Post, UserPost
+from app.models import Branch, BranchPost, Event, Organisation, Post, UserPost
 from app.serializers import (
     BranchPostSerializer,
     BranchSerializer,
+    EventSerializer,
     OrganisationSerializer,
     PostSerializer,
     UserPostSerializer,
@@ -35,3 +36,8 @@ class UserPostView(generics.ListCreateAPIView):
 class BranchPostView(generics.ListCreateAPIView):
     serializer_class = BranchPostSerializer
     queryset = BranchPost.objects.all()
+
+
+class EventView(generics.ListCreateAPIView):
+    serializer_class = EventSerializer
+    queryset = Event.objects.all()
