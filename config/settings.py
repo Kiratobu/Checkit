@@ -10,9 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+import os
 from datetime import timedelta
 from pathlib import Path
 
+import dj_database_url
 import environ
 import os
 
@@ -43,7 +45,7 @@ ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 
 
 # Application definition
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -53,15 +55,15 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
-    'rest_framework.permissions',
-    'django_filters',
+    "rest_framework.permissions",
+    "django_filters",
     "account",
     "rest_framework_simplejwt",
-    'app',
+    "app",
 ]
 
 
-AUTH_USER_MODEL = 'account.User'
+AUTH_USER_MODEL = "account.User"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -109,7 +111,7 @@ DATABASES = {
     # "extra": env.db_url("SQLITE_URL", default=":memory:"),
 }
 db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(db_from_env)
+DATABASES["default"].update(db_from_env)
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -187,3 +189,8 @@ SIMPLE_JWT = {
 
 AUTHENTICATION_BACKENDS = ("django.contrib.auth.backends.ModelBackend",)
 
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "akaliratobu@gmail.com"
+EMAIL_HOST_PASSWORD = "prfnfhsnxuhihfxs"
