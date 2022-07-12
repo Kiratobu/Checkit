@@ -64,6 +64,43 @@ class BranchPost(models.Model):
     )
 
 
+class Notification(models.Model):
+    """Notification model"""
+
+    WITHOUT = "Without notification"
+    FIVE_MIN = "five_minutes"
+    TEN_MIN = "ten_minutes"
+    FIFETEEN = "fifteen_minutes"
+    THIRTY_MIN = "thirty_minutes"
+    ONE_HOUR = "one_hour"
+    THREE_HOUR = "three_hours"
+    ONE_DAY = "one_day"
+    THREE_DAY = "three_days"
+
+    NOTIFICATION_CHOICES = (
+        (WITHOUT, "Без уведомлений"),
+        (FIVE_MIN, "За 5 минут до события"),
+        (TEN_MIN, "За 10 минут до события"),
+        (FIFETEEN, "За 15 минут до события"),
+        (THIRTY_MIN, "За 30 минут до события"),
+        (ONE_HOUR, "За час до события"),
+        (THREE_HOUR, "За 3 часа до события"),
+        (ONE_DAY, "За день до события"),
+        (THREE_DAY, "За 3 дня до события"),
+    )
+
+    notification = models.CharField(
+        max_length=255,
+        choices=NOTIFICATION_CHOICES,
+        default=WITHOUT,
+        null=True,
+        blank=True,
+    )
+
+    def __str__(self):
+        return f"{self.notification}"
+
+
 class Event(TimeStamp):
     """Event model"""
 
@@ -114,7 +151,9 @@ class Event(TimeStamp):
     event_type = models.ForeignKey(
         "EventType", on_delete=models.CASCADE, related_name="Event_Type"
     )
-    notification = models.ManyToManyField("Notification")
+    notifications = models.ManyToManyField(
+        "Notification", related_name="notifications"
+    )
 
     def __str__(self):
         return f"{self.title}"
@@ -173,43 +212,15 @@ class UserParticipant(TimeStamp):
         choices=STATUS_CHOICES,
         verbose_name="Статус мероприятия",
     )
-    user_id = models.ForeignKey(
+    user_participant = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="User_Participant"
     )
-    event_id = models.ForeignKey(
+    event_participant = models.ForeignKey(
         Event, on_delete=models.CASCADE, related_name="Event_Participant"
     )
 
     def __str__(self):
-        return f"{self.user_id}"
-
-
-class Notification(models.Model):
-    """Notification model"""
-
-    FIVE_MIN = "five_minutes"
-    TEN_MIN = "ten_minutes"
-    FIFETEEN = "fifteen_minutes"
-    THIRTY_MIN = "thirty_minutes"
-    ONE_HOUR = "one_hour"
-    THREE_HOUR = "three_hours"
-    ONE_DAY = "one_day"
-    THREE_DAY = "three_days"
-
-    NOTIFICATION_CHOICES = (
-        (FIVE_MIN, "За 5 минут до события"),
-        (TEN_MIN, "За 10 минут до события"),
-        (FIFETEEN, "За 15 минут до события"),
-        (THIRTY_MIN, "За 30 минут до события"),
-        (ONE_HOUR, "За час до события"),
-        (THREE_HOUR, "За 3 часа до события"),
-        (ONE_DAY, "За день до события"),
-        (THREE_DAY, "За 3 дня до события"),
-    )
-
-    notifications = models.CharField(
-        max_length=255, choices=NOTIFICATION_CHOICES, null=True
-    )
+        return f"{self.user_participant}"
 
 
 class Room(TimeStamp):

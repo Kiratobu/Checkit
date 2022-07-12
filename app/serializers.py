@@ -8,8 +8,10 @@ from app.models import (
     BranchPost,
     Event,
     EventType,
+    Notification,
     Organisation,
     Post,
+    Room,
     UserParticipant,
     UserPost,
 )
@@ -97,13 +99,67 @@ class BranchPostSerializer(serializers.ModelSerializer):
         return BranchPost.objects.create(**validated_data)
 
 
+class RoomSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Room
+        fields = "__all__"
+
+    def create(self, validated_data):
+        return Room.objects.create(**validated_data)
+
+
+class NotificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Notification
+        fields = "__all__"
+
+    def create(self, validated_data):
+        return Notification.objects.create(**validated_data)
+
+
 class EventSerializer(serializers.ModelSerializer):
+    notifications = serializers.StringRelatedField(many=True)
+    room_id = PresentablePrimaryKeyRelatedField(
+        queryset=Room.objects.all(),
+        presentation_serializer=RoomSerializer,
+    )
+
     class Meta:
         model = Event
-        fields = "__all__"
+        fields = [
+            "title",
+            "date",
+            "description",
+            "created_at",
+            "updated_at",
+            "time_from",
+            "time_to",
+            "repeat",
+            "is_private",
+            "event_type",
+            "notifications",
+            "room_id",
+        ]
+
+    def create(self, validated_data):
+        notifications_data = validated_data.pop("notifications")
+        event = Event.objects.create(**validated_data)
+        for notification_data in notifications_data:
+            Event.objects.create(event=event, **notification_data)
+        return event
 
 
 class UserParticipantSerializer(serializers.ModelSerializer):
+    user_participant = PresentablePrimaryKeyRelatedField(
+        queryset=User.objects.all(),
+        presentation_serializer=RegisterUserSerializer,
+    )
+
+    event_participant = PresentablePrimaryKeyRelatedField(
+        queryset=Event.objects.all(),
+        presentation_serializer=EventSerializer,
+    )
+
     class Meta:
         model = UserParticipant
         fields = "__all__"
@@ -111,10 +167,5 @@ class UserParticipantSerializer(serializers.ModelSerializer):
 
 class EventTypeSerializer(serializers.ModelSerializer):
     class Meta:
-        models = EventType
-        fields = "__all__"
-
-
-class RoomSerializer(serializers.ModelSerializer):
-    class Meta:
+        model = EventType
         fields = "__all__"
