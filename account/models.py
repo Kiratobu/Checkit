@@ -1,6 +1,5 @@
 # from email.policy import default
 
-from pyexpat import model
 from django.contrib.auth.models import (
     AbstractBaseUser,
     BaseUserManager,
@@ -88,5 +87,3 @@ class User(AbstractBaseUser, PermissionsMixin, TimeStamp):
         self.referral_token = f'{self.email}&{get_random_string(length=30)}'
         super().save(*args, **kwargs)
     """
-
- 

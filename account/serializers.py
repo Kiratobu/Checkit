@@ -61,7 +61,8 @@ class LoginUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["id", "email", "password"]
-        
+
+
 class MailReferralSerializer(serializers.ModelSerializer):
     class Meta:
         model = User

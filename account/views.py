@@ -1,18 +1,17 @@
-from django.contrib.auth import authenticate
-from django.contrib import messages
-from django.core.mail import send_mail
-from django.shortcuts import render, redirect
 from django.conf import settings
-from account.forms import SubscribeForm
-
-# from django.shortcuts import render
+from django.contrib.auth import authenticate
+from django.core.mail import send_mail
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.generics import CreateAPIView
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from .models import User
-from .serializers import LoginUserSerializer, RegisterUserSerializer, MailReferralSerializer
+from .serializers import (
+    LoginUserSerializer,
+    MailReferralSerializer,
+    RegisterUserSerializer,
+)
 
 
 class RegisterUserView(CreateAPIView):
@@ -44,19 +43,25 @@ class LoginUserView(CreateAPIView):
             }
         )
 
+
 class MailReferral(CreateAPIView):
-    
+
     serializer_class = MailReferralSerializer
     queryset = User.objects.all()
-    
-    def post(self,request,*args,**kwargs):
+
+    def post(self, request, *args, **kwargs):
         email = request.data.get("email")
         referral_code = request.data.get("referral_code")
-        subject = 'Referral code for Mega_calendar'
+        subject = "Referral code for Mega_calendar"
         message = referral_code
         recipient = email
-        send_mail(subject, 
-              message, settings.EMAIL_HOST_USER, [recipient], fail_silently=False)
+        send_mail(
+            subject,
+            message,
+            settings.EMAIL_HOST_USER,
+            [recipient],
+            fail_silently=False,
+        )
         return Response(
             {
                 "status": "Вы, успешно выслали приглашение",
@@ -64,5 +69,3 @@ class MailReferral(CreateAPIView):
                 "Приглашение": str(message),
             }
         )
-        
-            
