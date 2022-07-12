@@ -13,10 +13,11 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from re import sub
 from django.contrib import admin
 from django.urls import path
 
-from account.views import LoginUserView, RegisterUserView
+from account.views import LoginUserView, RegisterUserView, MailReferral
 from app.views import (
     BranchPostView,
     BranchView,
@@ -52,4 +53,5 @@ urlpatterns = [
     path(
         "notification/", NotificationView.as_view(), name="create Notification"
     ),
+    path("mail/", MailReferral.as_view(), name="create referral"),
 ]

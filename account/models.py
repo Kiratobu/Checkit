@@ -1,5 +1,6 @@
 # from email.policy import default
 
+from pyexpat import model
 from django.contrib.auth.models import (
     AbstractBaseUser,
     BaseUserManager,
@@ -67,7 +68,7 @@ class User(AbstractBaseUser, PermissionsMixin, TimeStamp):
     email = models.CharField(
         max_length=30, blank=False, unique=True, null=False
     )
-    # referral_token = models.CharField(max_length=255)
+    referral_code = models.CharField(max_length=255, blank=True, null=True)
     is_staff = models.BooleanField(default=False)
     img = models.ImageField(default=None, blank=True, null=True)
     date_of_birth = models.DateField(blank=True, null=True)
@@ -87,3 +88,5 @@ class User(AbstractBaseUser, PermissionsMixin, TimeStamp):
         self.referral_token = f'{self.email}&{get_random_string(length=30)}'
         super().save(*args, **kwargs)
     """
+
+ 
