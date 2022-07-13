@@ -60,7 +60,6 @@ INSTALLED_APPS = [
     'app',
 ]
 
-
 AUTH_USER_MODEL = 'account.User'
 
 MIDDLEWARE = [

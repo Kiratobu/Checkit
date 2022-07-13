@@ -7,13 +7,36 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from .models import User
-from .serializers import LoginUserSerializer, RegisterUserSerializer
+from .serializers import LoginUserSerializer, RegisterUserSerializer, ChangePassword
 
+from rest_framework.views import APIView
+import django_filters
+from rest_framework.filters import SearchFilter
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters, generics
 
-class RegisterUserView(CreateAPIView):
+class RegisterUserView(generics.ListCreateAPIView):
     serializer_class = RegisterUserSerializer
     queryset = User.objects.all()
+    search_fields = ["number", "email"]
+    filter_backends = (
+        DjangoFilterBackend,
+        filters.SearchFilter,
+    )
 
+class PasswordChangeView(APIView):
+    serializer_class = ChangePassword
+    queryset = User.objects.all()
+    # permission_classes = (IsSuperuser, )
+
+    def post(self, request):
+        email = request.data["email"]
+        password = request.data["password"]
+
+        user = User.objects.filter(email=email).first()
+        user.set_password(password)
+        user.save()
+        return Response({"статус": ("Пароль успешно изменён")})
 
 class LoginUserView(CreateAPIView):
     serializer_class = LoginUserSerializer

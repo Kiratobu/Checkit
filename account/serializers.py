@@ -1,4 +1,5 @@
 # from django.core.exceptions import ObjectDoesNotExist
+import email
 from rest_framework import serializers
 
 from .models import User
@@ -22,8 +23,8 @@ class RegisterUserSerializer(serializers.ModelSerializer):
             "number",
             "first_name",
             "last_name",
-            "password",
-            # "referral_code",
+            #"password",
+            #"referral_code",
         ]
         extra_kwargs = {
             "password": {"write_only": True},
@@ -41,7 +42,7 @@ class RegisterUserSerializer(serializers.ModelSerializer):
         except ObjectDoesNotExist:
             pass
         """
-        password = validated_data.pop("password")
+        password = validated_data["email"]
         user = User.objects.create(**validated_data)
         user.set_password(password)
         user.save()
@@ -55,6 +56,11 @@ class RegisterUserSerializer(serializers.ModelSerializer):
         """
         return user
 
+
+class ChangePassword(serializers.ModelSerializer):
+    class Meta:
+        model=User
+        fields=['email','password']
 
 class LoginUserSerializer(serializers.ModelSerializer):
     class Meta:
