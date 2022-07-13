@@ -11,6 +11,7 @@ from .serializers import (
     LoginUserSerializer,
     MailReferralSerializer,
     RegisterUserSerializer,
+    ChangePassword,
 )
 
 from rest_framework.views import APIView
