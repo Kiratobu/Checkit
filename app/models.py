@@ -9,7 +9,7 @@ class TimeStamp(models.Model):
 
 
 class Organisation(models.Model):
-    title = models.CharField(max_length=255, blank=False, null=False)
+    title = models.CharField(max_length=255)
     organisation_admin = models.ForeignKey(
         User, on_delete=models.CASCADE, default=None, null=True, blank=True
     )
@@ -205,7 +205,7 @@ class UserParticipant(TimeStamp):
     )
 
     is_creator = models.BooleanField(
-        unique=True, verbose_name="Является организатором"
+        default=False, verbose_name="Является организатором"
     )
     status = models.CharField(
         max_length=100,
@@ -213,10 +213,10 @@ class UserParticipant(TimeStamp):
         verbose_name="Статус мероприятия",
     )
     user_participant = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="User_Participant"
+        User, on_delete=models.CASCADE, related_name="user_Participant"
     )
     event_participant = models.ForeignKey(
-        Event, on_delete=models.CASCADE, related_name="Event_Participant"
+        Event, on_delete=models.CASCADE, related_name="event_Participant"
     )
 
     def __str__(self):

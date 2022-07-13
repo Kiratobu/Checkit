@@ -1,13 +1,9 @@
-# from email.policy import default
-
 from django.contrib.auth.models import (
     AbstractBaseUser,
     BaseUserManager,
     PermissionsMixin,
 )
 from django.db import models
-
-# from django.utils.crypto import get_random_string
 
 
 class TimeStamp(models.Model):
@@ -67,7 +63,6 @@ class User(AbstractBaseUser, PermissionsMixin, TimeStamp):
     email = models.CharField(
         max_length=30, blank=False, unique=True, null=False
     )
-    referral_code = models.CharField(max_length=255, blank=True, null=True)
     is_staff = models.BooleanField(default=False)
     img = models.ImageField(default=None, blank=True, null=True)
     date_of_birth = models.DateField(blank=True, null=True)

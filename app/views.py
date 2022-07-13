@@ -25,9 +25,6 @@ from app.serializers import (
     UserPostSerializer,
 )
 
-# Create your views here.
-
-
 class OrganisationView(generics.ListCreateAPIView):
     serializer_class = OrganisationSerializer
     queryset = Organisation.objects.all()

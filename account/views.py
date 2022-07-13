@@ -9,7 +9,6 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from .models import User
 from .serializers import (
     LoginUserSerializer,
-    MailReferralSerializer,
     RegisterUserSerializer,
 )
 
@@ -17,6 +16,20 @@ from .serializers import (
 class RegisterUserView(CreateAPIView):
     serializer_class = RegisterUserSerializer
     queryset = User.objects.all()
+    
+    def post(self, request, *args, **kwargs):
+        email = request.data.get("email")
+        subject = "Referral code for Mega_calendar"
+        message = "http://localhost:8000/login/"
+        recipient = email
+        send_mail(
+            subject,
+            message,
+            settings.EMAIL_HOST_USER,
+            [recipient],
+            fail_silently=False,
+        )
+        return self.create(request, *args, **kwargs)
 
 
 class LoginUserView(CreateAPIView):
@@ -40,32 +53,5 @@ class LoginUserView(CreateAPIView):
                 "status": "Вы, успешно авторизовались!",
                 "refresh": str(refresh),
                 "access": str(refresh.access_token),
-            }
-        )
-
-
-class MailReferral(CreateAPIView):
-
-    serializer_class = MailReferralSerializer
-    queryset = User.objects.all()
-
-    def post(self, request, *args, **kwargs):
-        email = request.data.get("email")
-        referral_code = request.data.get("referral_code")
-        subject = "Referral code for Mega_calendar"
-        message = referral_code
-        recipient = email
-        send_mail(
-            subject,
-            message,
-            settings.EMAIL_HOST_USER,
-            [recipient],
-            fail_silently=False,
-        )
-        return Response(
-            {
-                "status": "Вы, успешно выслали приглашение",
-                "Получатель": str(email),
-                "Приглашение": str(message),
             }
         )

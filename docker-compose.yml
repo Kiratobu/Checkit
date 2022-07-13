@@ -3,19 +3,22 @@ services:
   db:
     image: postgres
     ports:
-     - "5433:5433"
+     - "5432:5432"
     volumes:
       - ./data/db:/var/lib/postgresql/data
+<<<<<<< Updated upstream
     environment:
       - POSTGRES_DB=${DB_NAME}
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
+=======
+>>>>>>> Stashed changes
     env_file:
       - .env
   web:
     build: .
     tty: true
-    command:  bash -c 'python manage.py migrate && python manage.py runserver 0.0.0.0:8001'
+    command:  bash -c 'python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8001'
 
     volumes:
       - .:/code
