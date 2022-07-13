@@ -1,5 +1,4 @@
 # from django.core.exceptions import ObjectDoesNotExist
-import email
 from rest_framework import serializers
 
 from .models import User
@@ -23,8 +22,8 @@ class RegisterUserSerializer(serializers.ModelSerializer):
             "number",
             "first_name",
             "last_name",
-            #"password",
-            #"referral_code",
+            "password",
+            "referral_code",
         ]
         extra_kwargs = {
             "password": {"write_only": True},
@@ -66,3 +65,9 @@ class LoginUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["id", "email", "password"]
+
+
+class MailReferralSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["email", "referral_code"]
