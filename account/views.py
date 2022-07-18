@@ -5,17 +5,27 @@ from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.generics import CreateAPIView
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.views import APIView
+from rest_framework import filters
+from django_filters.rest_framework import DjangoFilterBackend
+
 
 from .models import User
 from .serializers import (
     LoginUserSerializer,
     RegisterUserSerializer,
+    ChangePassword
 )
 
 
 class RegisterUserView(CreateAPIView):
     serializer_class = RegisterUserSerializer
     queryset = User.objects.all()
+    filter_backends = (
+        DjangoFilterBackend,
+        filters.SearchFilter,
+    )
+
     
     def post(self, request, *args, **kwargs):
         email = request.data.get("email")
@@ -55,3 +65,18 @@ class LoginUserView(CreateAPIView):
                 "access": str(refresh.access_token),
             }
         )
+        
+        
+class PasswordChangeView(APIView):
+    serializer_class = ChangePassword
+    queryset = User.objects.all()
+    # permission_classes = (IsSuperuser, )
+
+    def post(self, request):
+        email = request.data["email"]
+        password = request.data["password"]
+
+        user = User.objects.filter(email=email).first()
+        user.set_password(password)
+        user.save()
+        return Response({"статус": ("Пароль успешно изменён")})

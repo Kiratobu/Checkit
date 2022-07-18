@@ -6,13 +6,6 @@ services:
      - "5432:5432"
     volumes:
       - ./data/db:/var/lib/postgresql/data
-<<<<<<< Updated upstream
-    environment:
-      - POSTGRES_DB=${DB_NAME}
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
-=======
->>>>>>> Stashed changes
     env_file:
       - .env
   web:
