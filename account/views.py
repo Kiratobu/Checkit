@@ -8,6 +8,8 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.views import APIView
 from rest_framework import filters
 from django_filters.rest_framework import DjangoFilterBackend
+import random
+import string
 
 
 from .models import User
@@ -53,7 +55,7 @@ class LoginUserView(CreateAPIView):
 
         if user is None:
             raise AuthenticationFailed(
-                f"{user} Пользователь с такими учетными данными не найден!"
+                f"Пользователь с такими учетными данными не найден!"
             )
 
         refresh = RefreshToken.for_user(user)
@@ -72,11 +74,22 @@ class PasswordChangeView(APIView):
     queryset = User.objects.all()
     # permission_classes = (IsSuperuser, )
 
-    def post(self, request):
+    def post(self, request, *args, **kwargs):
         email = request.data["email"]
-        password = request.data["password"]
-
+        letters = string.ascii_letters
+        new_password = ''.join(random.choice(letters) for i in range(10))
         user = User.objects.filter(email=email).first()
-        user.set_password(password)
+        user.set_password(new_password)
         user.save()
-        return Response({"статус": ("Пароль успешно изменён")})
+        subject = "New password for Mega_calendar"
+        message = new_password
+        recipient = email
+        send_mail(
+            subject,
+            message,
+            settings.EMAIL_HOST_USER,
+            [recipient],
+            fail_silently=False,
+        )
+        return Response({"статус": ("Пароль успешно изменён, проверьте свою почту")})
+        

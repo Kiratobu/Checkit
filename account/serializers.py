@@ -41,5 +41,5 @@ class LoginUserSerializer(serializers.ModelSerializer):
 class ChangePassword(serializers.ModelSerializer):
     class Meta:
         model=User
-        fields=['email','password']
+        fields=['email']
 
