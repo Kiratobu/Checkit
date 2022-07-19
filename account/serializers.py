@@ -7,13 +7,6 @@ from .models import User
 class RegisterUserSerializer(serializers.ModelSerializer):
     """Serializer for user registration"""
 
-    # referral_code = serializers.CharField(
-    # max_length=255,
-    # write_only=True,
-    # required=False,
-    # allow_blank=True
-    # )
-
     class Meta:
         model = User
         fields = [
@@ -23,7 +16,6 @@ class RegisterUserSerializer(serializers.ModelSerializer):
             "first_name",
             "last_name",
             "password",
-            "referral_code",
         ]
         extra_kwargs = {
             "password": {"write_only": True},
@@ -45,14 +37,7 @@ class RegisterUserSerializer(serializers.ModelSerializer):
         user = User.objects.create(**validated_data)
         user.set_password(password)
         user.save()
-        """
-        if referred_by:
-            referral = Referral.objects.create(
-                referred_by=referred_by,
-                referred_to=user
-                )
-            referral.save()
-        """
+
         return user
 
 
@@ -67,7 +52,7 @@ class LoginUserSerializer(serializers.ModelSerializer):
         fields = ["id", "email", "password"]
 
 
-class MailReferralSerializer(serializers.ModelSerializer):
+class ChangePassword(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["email", "referral_code"]
+        fields = ["email"]
