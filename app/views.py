@@ -1,4 +1,5 @@
-from rest_framework import generics
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters, generics
 
 from app.models import (
     Branch,
@@ -25,10 +26,6 @@ from app.serializers import (
     UserPostSerializer,
 )
 
-from rest_framework.filters import SearchFilter
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters
-
 
 class OrganisationView(generics.ListCreateAPIView):
     serializer_class = OrganisationSerializer
@@ -48,7 +45,7 @@ class BranchView(generics.ListCreateAPIView):
 class UserPostView(generics.ListCreateAPIView):
     serializer_class = UserPostSerializer
     queryset = UserPost.objects.all()
-    
+
     filterset_fields = ["post"]
     filter_backends = (
         DjangoFilterBackend,
@@ -56,17 +53,15 @@ class UserPostView(generics.ListCreateAPIView):
     )
 
 
-
 class BranchPostView(generics.ListCreateAPIView):
     serializer_class = BranchPostSerializer
     queryset = BranchPost.objects.all()
-    
-    filterset_fields = [ "branch", "post"]
+
+    filterset_fields = ["branch", "post"]
     filter_backends = (
         DjangoFilterBackend,
         filters.SearchFilter,
     )
-
 
 
 class EventView(generics.ListCreateAPIView):

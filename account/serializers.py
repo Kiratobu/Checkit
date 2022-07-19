@@ -24,12 +24,12 @@ class RegisterUserSerializer(serializers.ModelSerializer):
         """
         Creates new user with/without referral code.
         """
-    
+
         password = validated_data.pop("password")
         user = User.objects.create(**validated_data)
         user.set_password(password)
         user.save()
-        
+
         return user
 
 
@@ -37,9 +37,9 @@ class LoginUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["id", "email", "password"]
-        
+
+
 class ChangePassword(serializers.ModelSerializer):
     class Meta:
-        model=User
-        fields=['email']
-
+        model = User
+        fields = ["email"]

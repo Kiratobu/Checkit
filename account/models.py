@@ -13,6 +13,7 @@ class TimeStamp(models.Model):
     class Meta:
         abstract = True
 
+
 class UserManager(BaseUserManager):
     def create_user(self, email, first_name, last_name, **extra_fields):
         """

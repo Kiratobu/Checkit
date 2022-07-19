@@ -1,22 +1,22 @@
-from django.conf import settings
-from django.contrib.auth import authenticate
-from django.core.mail import send_mail
-from rest_framework.exceptions import AuthenticationFailed
-from rest_framework.generics import CreateAPIView
-from rest_framework.response import Response
-from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework.views import APIView
-from rest_framework import filters
-from django_filters.rest_framework import DjangoFilterBackend
 import random
 import string
 
+from django.conf import settings
+from django.contrib.auth import authenticate
+from django.core.mail import send_mail
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
+from rest_framework.exceptions import AuthenticationFailed
+from rest_framework.generics import CreateAPIView
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from .models import User
 from .serializers import (
+    ChangePassword,
     LoginUserSerializer,
     RegisterUserSerializer,
-    ChangePassword
 )
 
 
@@ -28,7 +28,6 @@ class RegisterUserView(CreateAPIView):
         filters.SearchFilter,
     )
 
-    
     def post(self, request, *args, **kwargs):
         email = request.data.get("email")
         subject = "Referral code for Mega_calendar"
@@ -55,7 +54,7 @@ class LoginUserView(CreateAPIView):
 
         if user is None:
             raise AuthenticationFailed(
-                f"Пользователь с такими учетными данными не найден!"
+                "Пользователь с такими учетными данными не найден!"
             )
 
         refresh = RefreshToken.for_user(user)
@@ -67,8 +66,8 @@ class LoginUserView(CreateAPIView):
                 "access": str(refresh.access_token),
             }
         )
-        
-        
+
+
 class PasswordChangeView(APIView):
     serializer_class = ChangePassword
     queryset = User.objects.all()
@@ -77,7 +76,7 @@ class PasswordChangeView(APIView):
     def post(self, request, *args, **kwargs):
         email = request.data["email"]
         letters = string.ascii_letters
-        new_password = ''.join(random.choice(letters) for i in range(10))
+        new_password = "".join(random.choice(letters) for i in range(10))
         user = User.objects.filter(email=email).first()
         user.set_password(new_password)
         user.save()
@@ -91,5 +90,6 @@ class PasswordChangeView(APIView):
             [recipient],
             fail_silently=False,
         )
-        return Response({"статус": ("Пароль успешно изменён, проверьте свою почту")})
-        
+        return Response(
+            {"статус": ("Пароль успешно изменён, проверьте свою почту")}
+        )
