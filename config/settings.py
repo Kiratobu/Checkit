@@ -16,6 +16,9 @@ from pathlib import Path
 
 import dj_database_url
 import environ
+import os
+
+import dj_database_url
 
 env = environ.Env(
     # set casting, default value
@@ -64,6 +67,8 @@ AUTH_USER_MODEL = "account.User"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",

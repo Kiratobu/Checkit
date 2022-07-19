@@ -15,7 +15,13 @@ django-stubs = "*"
 django-extra-fields = "*"
 gunicorn = "*"
 django-on-heroku = "*"
+whitenoise = "*"
+dj-database-url = "*"
+python-decouple = "*"
 django-filter = "*"
+django-cors-headers = "*"
+django-wsgi2 = "*"
+requests = "*"
 
 [dev-packages]
 flake8 = "*"

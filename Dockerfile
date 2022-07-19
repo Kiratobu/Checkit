@@ -15,4 +15,5 @@ RUN cd /code && pipenv lock --requirements > requirements.txt
 RUN pip install -r /code/requirements.txt
 
 COPY . /code/
+CMD gunicorn config.wsgi:application --bind 0.0.0.0:$PORT
 
