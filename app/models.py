@@ -3,7 +3,7 @@ from django.db import models
 from account.models import User
 
 
-class TimeStamp(models.Model):
+class TimeStampModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -18,14 +18,14 @@ class Organisation(models.Model):
     )
 
     def __str__(self):
-        return f"{self.title}"
+        return self.title
 
 
 class Post(models.Model):
     title = models.CharField(max_length=255, blank=False, null=False)
 
     def __str__(self):
-        return f"{self.title}"
+        return self.title
 
 
 class Branch(models.Model):
@@ -101,10 +101,10 @@ class Notification(models.Model):
     )
 
     def __str__(self):
-        return f"{self.notification}"
+        return self.notification
 
 
-class Event(TimeStamp):
+class Event(TimeStampModel):
     """Event model"""
 
     MONDAY = "MON"
@@ -150,16 +150,16 @@ class Event(TimeStamp):
     is_private = models.BooleanField(
         default=True, verbose_name="Является личным событием"
     )
-    room_id = models.ForeignKey("Room", on_delete=models.CASCADE)
+    room = models.ForeignKey("Room", on_delete=models.CASCADE)
     event_type = models.ForeignKey(
-        "EventType", on_delete=models.CASCADE, related_name="Event_Type"
+        "EventType", on_delete=models.CASCADE, related_name="event_type"
     )
     notifications = models.ManyToManyField(
         "Notification", related_name="notifications"
     )
 
     def __str__(self):
-        return f"{self.title}"
+        return self.title
 
 
 class EventType(models.Model):
@@ -186,15 +186,15 @@ class EventType(models.Model):
     color = models.CharField(
         max_length=255, choices=COLOR_CHOICES, verbose_name="Цвет"
     )
-    user_id = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="User"
+    user_event_type = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="user_event_type"
     )
 
     def __str__(self):
-        return f"{self.title}"
+        return self.title
 
 
-class UserParticipant(TimeStamp):
+class UserParticipant(TimeStampModel):
     """User Participant model"""
 
     STATUS_ACCEPTED = "accepted"
@@ -216,17 +216,17 @@ class UserParticipant(TimeStamp):
         verbose_name="Статус мероприятия",
     )
     user_participant = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="user_Participant"
+        User, on_delete=models.CASCADE, related_name="user_participant"
     )
     event_participant = models.ForeignKey(
-        Event, on_delete=models.CASCADE, related_name="event_Participant"
+        Event, on_delete=models.CASCADE, related_name="event_participant"
     )
 
     def __str__(self):
-        return f"{self.user_participant}"
+        return self.user_participant
 
 
-class Room(TimeStamp):
+class Room(TimeStampModel):
     """Room model"""
 
     title = models.CharField(max_length=255, verbose_name="Заголовок")
@@ -235,17 +235,17 @@ class Room(TimeStamp):
     is_available = models.BooleanField(verbose_name="Доступно")
     has_projector = models.BooleanField(verbose_name="Имеется проектор")
     has_desk = models.BooleanField(verbose_name="Имеется доска")
-    # organization_id = models.ForeignKey()
+    organization_room = models.ForeignKey(Organisation, on_delete=models.CASCADE,related_name="rooms",null=True,blank=True)
 
     def __str__(self):
-        return f"{self.title}"
+        return self.title
 
 
 class ImageRoom(models.Model):
     """Image room model"""
 
     name = models.CharField(max_length=255)
-    id_room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    room_image = models.ForeignKey(Room, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.name}"
+        return self.name

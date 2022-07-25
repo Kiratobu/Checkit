@@ -11,6 +11,7 @@ from app.views import (
     RoomView,
     UserParticipantView,
     UserPostView,
+    UserParticipantUpdate
 )
 
 urlpatterns = [
@@ -27,6 +28,7 @@ urlpatterns = [
         UserParticipantView.as_view(),
         name="create_participant",
     ),
+    path("user_participant/<int:pk>",UserParticipantUpdate.as_view(), name = "update_user_part"),
     path("event_type/", EventTypeView.as_view(), name="create_event_type"),
     path("room/", RoomView.as_view(), name="create_room"),
     path(

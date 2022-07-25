@@ -1,5 +1,6 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, generics
+from rest_framework.permissions import SAFE_METHODS, BasePermission
 
 from app.models import (
     Branch,
@@ -68,7 +69,23 @@ class EventView(generics.ListCreateAPIView):
     queryset = Event.objects.all()
 
 
+class PostUserWritePermission(BasePermission):
+    message = 'Editing event is restricted to the author only.'
+
+    def has_object_permission(self, request, view, obj):
+
+        if request.method in SAFE_METHODS:
+            return True
+
+        return obj.user_participant == request.user
+
 class UserParticipantView(generics.ListCreateAPIView):
+    serializer_class = UserParticipantSerializer
+    queryset = UserParticipant.objects.all()
+    
+
+class UserParticipantUpdate(generics.RetrieveUpdateDestroyAPIView, PostUserWritePermission):
+    permission_classes = [PostUserWritePermission]
     serializer_class = UserParticipantSerializer
     queryset = UserParticipant.objects.all()
 
