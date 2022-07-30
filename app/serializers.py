@@ -169,3 +169,8 @@ class EventTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = EventType
         fields = "__all__"
+
+class BookingRoomSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Event
+        fields = ["room_id", "time_from", "time_to"]

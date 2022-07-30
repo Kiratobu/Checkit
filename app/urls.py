@@ -1,6 +1,7 @@
 from django.urls import path
 
 from app.views import (
+    BookingRoomView,
     BranchPostView,
     BranchView,
     EventTypeView,
@@ -11,6 +12,7 @@ from app.views import (
     RoomView,
     UserParticipantView,
     UserPostView,
+    BookingRoomView
 )
 
 urlpatterns = [
@@ -32,4 +34,6 @@ urlpatterns = [
     path(
         "notification/", NotificationView.as_view(), name="create_notification"
     ),
+    path("bookingtime/<int:pk>", BookingRoomView.as_view(), name = "Booking time")
 ]
+
