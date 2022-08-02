@@ -33,16 +33,6 @@ from account.models import User
 from .serializers import ChangePasswordSerializer
 from rest_framework.permissions import IsAuthenticated
 
-class IsUserPermission(BasePermission):
-    message = 'Editing password is restricted to the author only.'
-
-    def has_object_permission(self, request, view, obj):
-
-        if request.method in SAFE_METHODS:
-            return True
-
-        return obj.user_id == request.user
-
 
 class RegisterUserView(generics.ListCreateAPIView):
     # permission_classes = [IsAdminUser]
@@ -57,7 +47,7 @@ class RegisterUserView(generics.ListCreateAPIView):
     def post(self, request, *args, **kwargs):
         email = request.data.get("email")
         subject = "Referral code for Mega_calendar"
-        message = "http://localhost:8000/login/"
+        message = "По умолчанию ваш пароль, это ваш email. Для логина перейдите по ссылке http://localhost:8000/login/"
         recipient = email
         send_mail(
             subject,

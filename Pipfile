@@ -22,6 +22,7 @@ django-filter = "*"
 django-cors-headers = "*"
 django-wsgi2 = "*"
 requests = "*"
+django-storages[dropbox] = "*"
 
 [dev-packages]
 flake8 = "*"

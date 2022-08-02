@@ -1,3 +1,4 @@
+from email.policy import default
 from django.db import models
 
 from account.models import User
@@ -150,7 +151,7 @@ class Event(TimeStampModel):
     is_private = models.BooleanField(
         default=True, verbose_name="Является личным событием"
     )
-    room = models.ForeignKey("Room", on_delete=models.CASCADE)
+    room = models.ForeignKey("Room", on_delete=models.CASCADE,related_name = "event_room",blank=True,null=True)
     event_type = models.ForeignKey(
         "EventType", on_delete=models.CASCADE, related_name="event_type"
     )
@@ -207,9 +208,9 @@ class UserParticipant(TimeStampModel):
         (STATUS_DELIGATED, "Делегировано"),
     )
 
-    is_creator = models.BooleanField(
-        default=False, verbose_name="Является организатором"
-    )
+    creator = models.ForeignKey(User, on_delete=models.CASCADE,
+        related_name="event_creator", verbose_name="Организатор"
+    ) # Возможно ForeignKey на User?
     status = models.CharField(
         max_length=100,
         choices=STATUS_CHOICES,
@@ -235,10 +236,11 @@ class Room(TimeStampModel):
     is_available = models.BooleanField(verbose_name="Доступно")
     has_projector = models.BooleanField(verbose_name="Имеется проектор")
     has_desk = models.BooleanField(verbose_name="Имеется доска")
+    image_room = models.ImageField(blank=True, null = True, default = None)
     organization_room = models.ForeignKey(Organisation, on_delete=models.CASCADE,related_name="rooms",null=True,blank=True)
 
     def __str__(self):
-        return self.title
+        return f"{self.title}"
 
 
 class ImageRoom(models.Model):

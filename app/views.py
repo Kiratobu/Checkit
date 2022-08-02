@@ -69,7 +69,7 @@ class EventView(generics.ListCreateAPIView):
     queryset = Event.objects.all()
 
 
-class PostUserWritePermission(BasePermission):
+class CreatorPermission(BasePermission):
     message = 'Editing event is restricted to the author only.'
 
     def has_object_permission(self, request, view, obj):
@@ -77,15 +77,15 @@ class PostUserWritePermission(BasePermission):
         if request.method in SAFE_METHODS:
             return True
 
-        return obj.user_participant == request.user
+        return obj.creator == request.user
 
 class UserParticipantView(generics.ListCreateAPIView):
     serializer_class = UserParticipantSerializer
     queryset = UserParticipant.objects.all()
     
 
-class UserParticipantUpdate(generics.RetrieveUpdateDestroyAPIView, PostUserWritePermission):
-    permission_classes = [PostUserWritePermission]
+class UserParticipantUpdate(generics.RetrieveUpdateDestroyAPIView, CreatorPermission):
+    permission_classes = [CreatorPermission]
     serializer_class = UserParticipantSerializer
     queryset = UserParticipant.objects.all()
 

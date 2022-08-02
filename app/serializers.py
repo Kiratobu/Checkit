@@ -119,7 +119,7 @@ class NotificationSerializer(serializers.ModelSerializer):
 
 class EventSerializer(serializers.ModelSerializer):
     notifications = serializers.StringRelatedField(many=True)
-    room_id = PresentablePrimaryKeyRelatedField(
+    room = PresentablePrimaryKeyRelatedField(
         queryset=Room.objects.all(),
         presentation_serializer=RoomSerializer,
     )
@@ -138,7 +138,7 @@ class EventSerializer(serializers.ModelSerializer):
             "is_private",
             "event_type",
             "notifications",
-            "room_id",
+            "room",
         ]
 
     def create(self, validated_data):
