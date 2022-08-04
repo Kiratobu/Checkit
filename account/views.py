@@ -84,6 +84,14 @@ class LoginUserView(CreateAPIView):
                 "status": "Вы, успешно авторизовались!",
                 "refresh": str(refresh),
                 "access": str(refresh.access_token),
+                "first_name": user.first_name,
+                "last_name" : user.last_name,
+                "number": user.number,
+                "email" :user.email,
+                "is_staff" : user.is_staff,
+                #"img" : user.img,
+                "date_of_birth" : user.date_of_birth,
+                "is_active" : user.is_active
             }
         )
 

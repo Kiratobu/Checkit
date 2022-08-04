@@ -51,7 +51,7 @@ class BranchView(generics.ListCreateAPIView):
 class UserPostView(generics.ListCreateAPIView):
     serializer_class = UserPostSerializer
     queryset = UserPost.objects.all()
-    filterset_fields = ["post"]
+    filterset_fields = ["post", "user"]
     filter_backends = (
         DjangoFilterBackend,
         filters.SearchFilter,

@@ -243,7 +243,6 @@ class Room(TimeStamp):
 
 class ImageRoom(models.Model):
     """Image room model"""
-
     name = models.CharField(max_length=255)
     id_room = models.ForeignKey(Room, on_delete=models.CASCADE)
 
