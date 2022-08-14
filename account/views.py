@@ -1,28 +1,20 @@
 import random
 import string
 
-import django_filters
 from django.conf import settings
 from django.contrib.auth import authenticate
 from django.core.mail import send_mail
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, generics, status
 from rest_framework.exceptions import AuthenticationFailed
-from rest_framework.filters import SearchFilter
 from rest_framework.generics import CreateAPIView
-from rest_framework.permissions import (
-    SAFE_METHODS,
-    BasePermission,
-    IsAdminUser,
-    IsAuthenticated,
-)
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from account.models import User
 
-from .models import User
 from .serializers import (
     ChangePasswordSerializer,
     LoginUserSerializer,
@@ -45,7 +37,8 @@ class RegisterUserView(generics.ListCreateAPIView):
     def post(self, request, *args, **kwargs):
         email = request.data.get("email")
         subject = "Referral code for Mega_calendar"
-        message = "По умолчанию ваш пароль, это ваш email. Для логина перейдите по ссылке http://localhost:8000/login/"
+        message = "По умолчанию ваш пароль, это ваш email.\
+                Для логина перейдите по ссылке http://localhost:8000/login/"
         recipient = email
         send_mail(
             subject,
@@ -55,12 +48,12 @@ class RegisterUserView(generics.ListCreateAPIView):
             fail_silently=False,
         )
         return self.create(request, *args, **kwargs)
-    
+
+
 class UpdateDestroyUser(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAdminUser]
     serializer_class = UserSerializer
     queryset = User.objects.all()
-    
 
 
 class LoginUserView(CreateAPIView):
@@ -85,13 +78,13 @@ class LoginUserView(CreateAPIView):
                 "refresh": str(refresh),
                 "access": str(refresh.access_token),
                 "first_name": user.first_name,
-                "last_name" : user.last_name,
+                "last_name": user.last_name,
                 "number": user.number,
-                "email" :user.email,
-                "is_staff" : user.is_staff,
-                #"img" : user.img,
-                "date_of_birth" : user.date_of_birth,
-                "is_active" : user.is_active
+                "email": user.email,
+                "is_staff": user.is_staff,
+                # "img" : user.img,
+                "date_of_birth": user.date_of_birth,
+                "is_active": user.is_active,
             }
         )
 

@@ -5,13 +5,15 @@ from account.views import (
     LoginUserView,
     MailPasswordChangeView,
     RegisterUserView,
-    UpdateDestroyUser
+    UpdateDestroyUser,
 )
 
 urlpatterns = [
     path("register/", RegisterUserView.as_view(), name="createuser"),
     path("login/", LoginUserView.as_view(), name="authuser"),
-    path("change_user/<int:pk>", UpdateDestroyUser.as_view(), name="update_user"),
+    path(
+        "change_user/<int:pk>", UpdateDestroyUser.as_view(), name="update_user"
+    ),
     path(
         "mail_change_password/",
         MailPasswordChangeView.as_view(),

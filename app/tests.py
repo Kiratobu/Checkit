@@ -1,6 +1,3 @@
-from turtle import title
-from unittest import TestResult
-
 from django.test import TestCase
 
 from .models import Post

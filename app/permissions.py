@@ -1,5 +1,6 @@
 from rest_framework.permissions import SAFE_METHODS, BasePermission
 
+
 class CreatorPermission(BasePermission):
     message = "Editing event is restricted to the author only."
 

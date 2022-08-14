@@ -169,14 +169,13 @@ class EventTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = EventType
         fields = "__all__"
-        
+
         # def create(self, request, validated_data):
         #     user_event_type = self.request.user.email
         #     event_type = EventType.objects.create(**validated_data)
-            
+
 
 class BookingRoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
         fields = ["room_id", "time_from", "time_to"]
-

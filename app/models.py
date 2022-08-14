@@ -1,5 +1,3 @@
-from email.policy import default
-
 from django.db import models
 
 from account.models import User
@@ -261,6 +259,7 @@ class Room(TimeStampModel):
 
 class ImageRoom(models.Model):
     """Image room model"""
+
     name = models.CharField(max_length=255)
     room_image = models.ForeignKey(Room, on_delete=models.CASCADE)
 

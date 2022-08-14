@@ -1,13 +1,10 @@
-from urllib import request
+import django_filters
+from django_filters import DateFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, generics
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAdminUser, IsAuthenticated
-from app.permissions import CreatorPermission
-
-# Create your views here.
-from rest_framework.filters import SearchFilter
 
 from app.models import (
     Branch,
@@ -21,7 +18,9 @@ from app.models import (
     UserParticipant,
     UserPost,
 )
+from app.permissions import CreatorPermission
 from app.serializers import (
+    BookingRoomSerializer,
     BranchPostSerializer,
     BranchSerializer,
     EventSerializer,
@@ -32,15 +31,8 @@ from app.serializers import (
     RoomSerializer,
     UserParticipantSerializer,
     UserPostSerializer,
-    BookingRoomSerializer,
 )
 
-# Create your views here.
-from rest_framework.filters import SearchFilter
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters
-from django_filters import DateFilter
-import django_filters
 
 class OrganisationView(generics.ListCreateAPIView):
     serializer_class = OrganisationSerializer
@@ -81,12 +73,18 @@ class BranchPostView(generics.ListCreateAPIView):
     )
     permission_classes = [IsAdminUser]
 
+
 class DateFilter(django_filters.FilterSet):
-    start_date=DateFilter(field_name='date', lookup_expr=('gte'),)
-    end_date=DateFilter(field_name='date', lookup_expr=('lte'))
+    start_date = DateFilter(
+        field_name="date",
+        lookup_expr=("gte"),
+    )
+    end_date = DateFilter(field_name="date", lookup_expr=("lte"))
+
     class Meta:
         model = Event
-        fields = ['title', 'date']
+        fields = ["title", "date"]
+
 
 class EventView(generics.ListCreateAPIView):
     serializer_class = EventSerializer
@@ -96,19 +94,24 @@ class EventView(generics.ListCreateAPIView):
         filters.SearchFilter,
     )
     permission_classes = [IsAuthenticated]
-    
+
     def get_queryset(self):
-        queryset = Event.objects.filter(event_participant__user_participant=self.request.user.id)
+        queryset = Event.objects.filter(
+            event_participant__user_participant=self.request.user.id
+        )
         return queryset
+
 
 class EventUpdateView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = EventSerializer
     permission_classes = [IsAuthenticated]
-    
+
     def get_queryset(self):
-        queryset = Event.objects.filter(event_participant__user_participant=self.request.user.id)
+        queryset = Event.objects.filter(
+            event_participant__user_participant=self.request.user.id
+        )
         return queryset
-    
+
 
 class UserParticipantView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
@@ -128,17 +131,22 @@ class UserParticipantUpdate(
 class EventTypeView(generics.ListCreateAPIView):
     serializer_class = EventTypeSerializer
     # permission_classes = [IsAuthenticated]
-    
+
     def get_queryset(self):
-        queryset = EventType.objects.filter(user_event_type__id=self.request.user.id)
+        queryset = EventType.objects.filter(
+            user_event_type__id=self.request.user.id
+        )
         return queryset
-    
+
+
 class EventTypeUpdateView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = EventTypeSerializer
     # permission_classes = [IsAuthenticated]
-    
+
     def get_queryset(self):
-        queryset = EventType.objects.filter(user_event_type__id=self.request.user.id)
+        queryset = EventType.objects.filter(
+            user_event_type__id=self.request.user.id
+        )
         return queryset
 
 
@@ -146,22 +154,27 @@ class RoomView(generics.ListCreateAPIView):
     permission_classes = [IsAdminUser]
     serializer_class = RoomSerializer
     queryset = Room.objects.all()
-    
+
+
 class RoomUpdateView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAdminUser]
     serializer_class = RoomSerializer
     queryset = Room.objects.all()
-    filterset_fields = [ "title", "description", "capacity"]
+    filterset_fields = ["title", "description", "capacity"]
     filter_backends = (
         DjangoFilterBackend,
         filters.SearchFilter,
     )
 
+
 class NotificationView(generics.ListCreateAPIView):
     serializer_class = NotificationSerializer
     queryset = Notification.objects.all()
 
+
 class BookingRoomView(APIView):
     def get(self, request, pk):
-        serializer = BookingRoomSerializer(Event.objects.filter(room_id__id=pk), many = True)
-        return Response({"booking time" : serializer.data})
+        serializer = BookingRoomSerializer(
+            Event.objects.filter(room_id__id=pk), many=True
+        )
+        return Response({"booking time": serializer.data})

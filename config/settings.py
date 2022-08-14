@@ -194,4 +194,4 @@ EMAIL_HOST_PASSWORD = "prfnfhsnxuhihfxs"
 
 
 DEFAULT_FILE_STORAGE = "storages.backends.dropbox.DropBoxStorage"
-DROPBOX_OAUTH2_TOKEN = "sl.BMgGZfsfLaunPWpc9Zh9djjuKAg6cSt5qKPZctb8V6FV8rjc3KLN7jqXAHn8xX1c98QtLRH5_Bfuup3jLi4DBKQlQgo0yBIo1TrL-mqCvvepqAwaNumOUJmD_KpzNNHeajulNO8"
+DROPBOX_OAUTH2_TOKEN = "sl.BMgGZfsfLaunPWpc9Zh9djjuKAg6cSt5qKPZctb8V6FV8rjc3KLN7jqXAHn8xX1c98QtLRH5_Bfuup3jLi4DBKQlQgo0yBIo1TrL-mqCvvepqAwaNumOUJmD_KpzNNHeajulNO8"  # noqa
