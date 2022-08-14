@@ -1,35 +1,42 @@
 import random
 import string
 
+import django_filters
 from django.conf import settings
 from django.contrib.auth import authenticate
 from django.core.mail import send_mail
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters
+from rest_framework import filters, generics, status
 from rest_framework.exceptions import AuthenticationFailed
+from rest_framework.filters import SearchFilter
 from rest_framework.generics import CreateAPIView
+from rest_framework.permissions import (
+    SAFE_METHODS,
+    BasePermission,
+    IsAdminUser,
+    IsAuthenticated,
+)
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from account.models import User
+
 from .models import User
 from .serializers import (
-    ChangePassword,
+    ChangePasswordSerializer,
     LoginUserSerializer,
+    MailChangePasswordSerializer,
     RegisterUserSerializer,
-    ChangePassword,
+    UserSerializer,
 )
 
-from rest_framework.views import APIView
-import django_filters
-from rest_framework.filters import SearchFilter
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters, generics
 
 class RegisterUserView(generics.ListCreateAPIView):
+    permission_classes = [IsAdminUser]
     serializer_class = RegisterUserSerializer
     queryset = User.objects.all()
-    search_fields = ["number", "email"]
+    search_fields = ["phone_number", "email"]
     filter_backends = (
         DjangoFilterBackend,
         filters.SearchFilter,
@@ -38,7 +45,7 @@ class RegisterUserView(generics.ListCreateAPIView):
     def post(self, request, *args, **kwargs):
         email = request.data.get("email")
         subject = "Referral code for Mega_calendar"
-        message = "http://localhost:8000/login/"
+        message = "По умолчанию ваш пароль, это ваш email. Для логина перейдите по ссылке http://localhost:8000/login/"
         recipient = email
         send_mail(
             subject,
@@ -48,20 +55,13 @@ class RegisterUserView(generics.ListCreateAPIView):
             fail_silently=False,
         )
         return self.create(request, *args, **kwargs)
-
-class PasswordChangeView(APIView):
-    serializer_class = ChangePassword
+    
+class UpdateDestroyUser(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsAdminUser]
+    serializer_class = UserSerializer
     queryset = User.objects.all()
-    # permission_classes = (IsSuperuser, )
+    
 
-    def post(self, request):
-        email = request.data["email"]
-        password = request.data["password"]
-
-        user = User.objects.filter(email=email).first()
-        user.set_password(password)
-        user.save()
-        return Response({"статус": ("Пароль успешно изменён")})
 
 class LoginUserView(CreateAPIView):
     serializer_class = LoginUserSerializer
@@ -78,7 +78,7 @@ class LoginUserView(CreateAPIView):
             )
 
         refresh = RefreshToken.for_user(user)
-        
+
         return Response(
             {
                 "status": "Вы, успешно авторизовались!",
@@ -96,10 +96,9 @@ class LoginUserView(CreateAPIView):
         )
 
 
-class PasswordChangeView(APIView):
-    serializer_class = ChangePassword
+class MailPasswordChangeView(APIView):
+    serializer_class = MailChangePasswordSerializer
     queryset = User.objects.all()
-    # permission_classes = (IsSuperuser, )
 
     def post(self, request, *args, **kwargs):
         email = request.data["email"]
@@ -121,3 +120,44 @@ class PasswordChangeView(APIView):
         return Response(
             {"статус": ("Пароль успешно изменён, проверьте свою почту")}
         )
+
+
+class ChangePasswordView(generics.UpdateAPIView):
+    """
+    An endpoint for changing password.
+    """
+
+    serializer_class = ChangePasswordSerializer
+    model = User
+    permission_classes = (IsAuthenticated,)
+
+    def get_object(self, queryset=None):
+        obj = self.request.user
+        return obj
+
+    def update(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        serializer = self.get_serializer(data=request.data)
+
+        if serializer.is_valid():
+            # Check old password
+            if not self.object.check_password(
+                serializer.data.get("old_password")
+            ):
+                return Response(
+                    {"old_password": ["Wrong password."]},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            # set_password also hashes the password that the user will get
+            self.object.set_password(serializer.data.get("new_password"))
+            self.object.save()
+            response = {
+                "status": "success",
+                "code": status.HTTP_200_OK,
+                "message": "Password updated successfully",
+                "data": [],
+            }
+
+            return Response(response)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

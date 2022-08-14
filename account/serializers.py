@@ -12,14 +12,10 @@ class RegisterUserSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "email",
-            "number",
+            "phone_number",
             "first_name",
             "last_name",
-            "password",
         ]
-        extra_kwargs = {
-            "password": {"write_only": True},
-        }
 
     def create(self, validated_data):
         """
@@ -39,12 +35,11 @@ class RegisterUserSerializer(serializers.ModelSerializer):
         user.save()
 
         return user
-
-
-class ChangePassword(serializers.ModelSerializer):
+    
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model=User
-        fields=['email','password']
+        model = User
+        fields = "__all__"
 
 class LoginUserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -52,7 +47,17 @@ class LoginUserSerializer(serializers.ModelSerializer):
         fields = ["id", "email", "password"]
 
 
-class ChangePassword(serializers.ModelSerializer):
+class MailChangePasswordSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["email"]
+
+
+class ChangePasswordSerializer(serializers.Serializer):
+    model = User
+
+    """
+    Serializer for password change endpoint.
+    """
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
