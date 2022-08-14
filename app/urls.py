@@ -11,6 +11,7 @@ from app.views import (
     OrganisationView,
     PostView,
     RoomView,
+    RoomUpdateView,
     UserParticipantUpdate,
     UserParticipantView,
     UserPostView,
@@ -39,6 +40,7 @@ urlpatterns = [
     path("event_type/", EventTypeView.as_view(), name="create_event_type"),
     path("event_type/<int:pk>/", EventTypeUpdateView.as_view(), name="update_event_type"),
     path("room/", RoomView.as_view(), name="create_room"),
+    path("room/<int:pk>/", RoomUpdateView.as_view(), name="update_room"),
     path(
         "notification/", NotificationView.as_view(), name="create_notification"
     ),

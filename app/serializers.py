@@ -168,4 +168,9 @@ class UserParticipantSerializer(serializers.ModelSerializer):
 class EventTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = EventType
-        fields = "__all__"
+        fields = ['title', 'color']
+        
+        # def create(self, request, validated_data):
+        #     user_event_type = self.request.user.email
+        #     event_type = EventType.objects.create(**validated_data)
+            

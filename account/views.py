@@ -28,7 +28,7 @@ from .serializers import (
     LoginUserSerializer,
     MailChangePasswordSerializer,
     RegisterUserSerializer,
-    UserSerializer
+    UserSerializer,
 )
 
 

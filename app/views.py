@@ -107,22 +107,27 @@ class UserParticipantUpdate(
 
 class EventTypeView(generics.ListCreateAPIView):
     serializer_class = EventTypeSerializer
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     
     def get_queryset(self):
-        queryset = EventType.objects.filter(user_event_type__email=self.request.user.id)
+        queryset = EventType.objects.filter(user_event_type__id=self.request.user.id)
         return queryset
     
 class EventTypeUpdateView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = EventTypeSerializer
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     
     def get_queryset(self):
-        queryset = EventType.objects.filter(user_event_type__email=self.request.user.id)
+        queryset = EventType.objects.filter(user_event_type__id=self.request.user.id)
         return queryset
 
 
 class RoomView(generics.ListCreateAPIView):
+    permission_classes = [IsAdminUser]
+    serializer_class = RoomSerializer
+    queryset = Room.objects.all()
+    
+class RoomUpdateView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAdminUser]
     serializer_class = RoomSerializer
     queryset = Room.objects.all()
