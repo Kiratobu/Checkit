@@ -35,12 +35,11 @@ class RegisterUserSerializer(serializers.ModelSerializer):
         user.save()
 
         return user
-
-
-class ChangePasswordSerializer(serializers.ModelSerializer):
+    
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model=User
-        fields=['email','password']
+        model = User
+        fields = "__all__"
 
 class LoginUserSerializer(serializers.ModelSerializer):
     class Meta:

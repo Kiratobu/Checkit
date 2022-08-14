@@ -4,14 +4,16 @@ from app.views import (
     BranchPostView,
     BranchView,
     EventTypeView,
+    EventTypeUpdateView,
     EventView,
+    EventUpdateView,
     NotificationView,
     OrganisationView,
     PostView,
     RoomView,
+    UserParticipantUpdate,
     UserParticipantView,
     UserPostView,
-    UserParticipantUpdate
 )
 
 urlpatterns = [
@@ -23,13 +25,19 @@ urlpatterns = [
     path("branch/", BranchView.as_view(), name="create_branch"),
     path("userpost/", UserPostView.as_view(), name="create_user_post"),
     path("event/", EventView.as_view(), name="create_event"),
+    path("event/<int:pk>/", EventUpdateView.as_view(), name="update_event"),
     path(
         "user_participant/",
         UserParticipantView.as_view(),
         name="create_participant",
     ),
-    path("user_participant/<int:pk>",UserParticipantUpdate.as_view(), name = "update_user_part"),
+    path(
+        "user_participant/<int:pk>",
+        UserParticipantUpdate.as_view(),
+        name="update_user_part",
+    ),
     path("event_type/", EventTypeView.as_view(), name="create_event_type"),
+    path("event_type/<int:pk>/", EventTypeUpdateView.as_view(), name="update_event_type"),
     path("room/", RoomView.as_view(), name="create_room"),
     path(
         "notification/", NotificationView.as_view(), name="create_notification"
