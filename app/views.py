@@ -1,3 +1,4 @@
+from urllib import request
 import django_filters
 from django_filters import DateFilter
 from django_filters.rest_framework import DjangoFilterBackend
@@ -130,19 +131,24 @@ class UserParticipantUpdate(
 
 class EventTypeView(generics.ListCreateAPIView):
     serializer_class = EventTypeSerializer
-    # permission_classes = [IsAuthenticated]
-
+    permission_classes = [IsAuthenticated]
+    
     def get_queryset(self):
         queryset = EventType.objects.filter(
-            user_event_type__id=self.request.user.id
+            user_event_type__id=self.request.user
         )
         return queryset
+    
+    def get_serializer_context(self):
+        context = super(EventTypeView, self).get_serializer_context()
+        context.update({"request": self.request})
+        return context
 
 
 class EventTypeUpdateView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = EventTypeSerializer
     # permission_classes = [IsAuthenticated]
-
+    
     def get_queryset(self):
         queryset = EventType.objects.filter(
             user_event_type__id=self.request.user.id
@@ -151,7 +157,7 @@ class EventTypeUpdateView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class RoomView(generics.ListCreateAPIView):
-    permission_classes = [IsAdminUser]
+    # permission_classes = [IsAdminUser]
     serializer_class = RoomSerializer
     queryset = Room.objects.all()
 

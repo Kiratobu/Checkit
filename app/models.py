@@ -193,7 +193,7 @@ class EventType(models.Model):
         max_length=255, choices=COLOR_CHOICES, verbose_name="Цвет"
     )
     user_event_type = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="user_event_type"
+        User, on_delete=models.CASCADE, related_name="user_e_t"
     )
 
     def __str__(self):

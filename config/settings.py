@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     "account",
     "rest_framework_simplejwt",
     "app",
+    "storages"
 ]
 
 
@@ -157,32 +158,32 @@ REST_FRAMEWORK = {
     ]
 }
 
-SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
-    "ROTATE_REFRESH_TOKENS": False,
-    "BLACKLIST_AFTER_ROTATION": False,
-    "UPDATE_LAST_LOGIN": False,
-    "ALGORITHM": "HS256",
-    "SIGNING_KEY": SECRET_KEY,
-    "VERIFYING_KEY": None,
-    "AUDIENCE": None,
-    "ISSUER": None,
-    "JWK_URL": None,
-    "LEEWAY": 0,
-    "AUTH_HEADER_TYPES": ("Bearer",),
-    "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
-    "USER_ID_FIELD": "id",
-    "USER_ID_CLAIM": "user_id",
-    "USER_AUTHENTICATION_RULE": "rest_framework_simplejwt.authentication.default_user_authentication_rule",  # noqa
-    "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
-    "TOKEN_TYPE_CLAIM": "token_type",
-    "TOKEN_USER_CLASS": "rest_framework_simplejwt.models.TokenUser",
-    "JTI_CLAIM": "jti",
-    "SLIDING_TOKEN_REFRESH_EXP_CLAIM": "refresh_exp",
-    "SLIDING_TOKEN_LIFETIME": timedelta(minutes=5),
-    "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=1),
-}
+# SIMPLE_JWT = {
+#     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+#     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+#     "ROTATE_REFRESH_TOKENS": False,
+#     "BLACKLIST_AFTER_ROTATION": False,
+#     "UPDATE_LAST_LOGIN": False,
+#     "ALGORITHM": "HS256",
+#     "SIGNING_KEY": SECRET_KEY,
+#     "VERIFYING_KEY": None,
+#     "AUDIENCE": None,
+#     "ISSUER": None,
+#     "JWK_URL": None,
+#     "LEEWAY": 0,
+#     "AUTH_HEADER_TYPES": ("Bearer",),
+#     "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
+#     "USER_ID_FIELD": "id",
+#     "USER_ID_CLAIM": "user_id",
+#     "USER_AUTHENTICATION_RULE": "rest_framework_simplejwt.authentication.default_user_authentication_rule",  # noqa
+#     "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
+#     "TOKEN_TYPE_CLAIM": "token_type",
+#     "TOKEN_USER_CLASS": "rest_framework_simplejwt.models.TokenUser",
+#     "JTI_CLAIM": "jti",
+#     "SLIDING_TOKEN_REFRESH_EXP_CLAIM": "refresh_exp",
+#     "SLIDING_TOKEN_LIFETIME": timedelta(minutes=5),
+#     "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=1),
+# }
 
 AUTHENTICATION_BACKENDS = ("django.contrib.auth.backends.ModelBackend",)
 
@@ -194,4 +195,6 @@ EMAIL_HOST_PASSWORD = "prfnfhsnxuhihfxs"
 
 
 DEFAULT_FILE_STORAGE = "storages.backends.dropbox.DropBoxStorage"
-DROPBOX_OAUTH2_TOKEN = "sl.BMgGZfsfLaunPWpc9Zh9djjuKAg6cSt5qKPZctb8V6FV8rjc3KLN7jqXAHn8xX1c98QtLRH5_Bfuup3jLi4DBKQlQgo0yBIo1TrL-mqCvvepqAwaNumOUJmD_KpzNNHeajulNO8"  # noqa
+DROPBOX_OAUTH2_TOKEN = "sl.BNfkA1O-V_yCbkoCMqgXBE3UAGb_1UxxNVrvlWSJRoPq_eh8bPjOB5Ri-d2ACcyN8UwE8MuiKQUC4UkGFYi8-4nhfr2952Sex_DbZ-hZr2zShermlw1Y3daYfdMxzYy9YEHNnhumIvxJ"  # noqa
+DROPBOX_CONSUMER_KEY = "26hdn9ugddvfie3"
+DROPBOX_CONSUMER_SECRET = "082cv2kwz75n06w"

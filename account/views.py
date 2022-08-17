@@ -25,7 +25,7 @@ from .serializers import (
 
 
 class RegisterUserView(generics.ListCreateAPIView):
-    permission_classes = [IsAdminUser]
+    # permission_classes = [IsAdminUser]
     serializer_class = RegisterUserSerializer
     queryset = User.objects.all()
     search_fields = ["phone_number", "email"]
@@ -79,7 +79,7 @@ class LoginUserView(CreateAPIView):
                 "access": str(refresh.access_token),
                 "first_name": user.first_name,
                 "last_name": user.last_name,
-                "number": user.number,
+                "phone_number": user.phone_number,
                 "email": user.email,
                 "is_staff": user.is_staff,
                 # "img" : user.img,

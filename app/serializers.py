@@ -1,3 +1,4 @@
+from venv import create
 from drf_extra_fields.relations import PresentablePrimaryKeyRelatedField
 from rest_framework import serializers
 
@@ -167,12 +168,16 @@ class UserParticipantSerializer(serializers.ModelSerializer):
 
 class EventTypeSerializer(serializers.ModelSerializer):
     class Meta:
+        
         model = EventType
-        fields = "__all__"
+        fields = ["color", "title"]
 
-        # def create(self, request, validated_data):
-        #     user_event_type = self.request.user.email
-        #     event_type = EventType.objects.create(**validated_data)
+        def create(self, validated_data):
+            user_event_type = self.context["request"].user
+            validated_data['user_event_type'] = user_event_type
+            event_type = EventType.objects.create(**validated_data)
+            return event_type
+            
 
 
 class BookingRoomSerializer(serializers.ModelSerializer):
