@@ -170,10 +170,10 @@ class EventTypeSerializer(serializers.ModelSerializer):
     class Meta:
         
         model = EventType
-        fields = ["color", "title"]
+        fields = ["title", "color"]
 
-        def create(self, validated_data):
-            user_event_type = self.context["request"].user
+        def create(self, request, validated_data):
+            user_event_type = self.context['request_user_id']
             validated_data['user_event_type'] = user_event_type
             event_type = EventType.objects.create(**validated_data)
             return event_type

@@ -1,3 +1,4 @@
+from turtle import color
 from urllib import request
 import django_filters
 from django_filters import DateFilter
@@ -94,7 +95,6 @@ class EventView(generics.ListCreateAPIView):
         DjangoFilterBackend,
         filters.SearchFilter,
     )
-    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         queryset = Event.objects.filter(
@@ -105,7 +105,6 @@ class EventView(generics.ListCreateAPIView):
 
 class EventUpdateView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = EventSerializer
-    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         queryset = Event.objects.filter(
@@ -115,7 +114,6 @@ class EventUpdateView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class UserParticipantView(generics.ListCreateAPIView):
-    permission_classes = [IsAuthenticated]
     serializer_class = UserParticipantSerializer
     queryset = UserParticipant.objects.all()
 
@@ -123,7 +121,6 @@ class UserParticipantView(generics.ListCreateAPIView):
 class UserParticipantUpdate(
     generics.RetrieveUpdateDestroyAPIView, CreatorPermission
 ):
-    permission_classes = [IsAuthenticated]
     permission_classes = [CreatorPermission]
     serializer_class = UserParticipantSerializer
     queryset = UserParticipant.objects.all()
@@ -135,19 +132,21 @@ class EventTypeView(generics.ListCreateAPIView):
     
     def get_queryset(self):
         queryset = EventType.objects.filter(
-            user_event_type__id=self.request.user
+            user_event_type__id=self.request.user.id
         )
         return queryset
     
     def get_serializer_context(self):
         context = super(EventTypeView, self).get_serializer_context()
-        context.update({"request": self.request})
+        context.update({"request_user_id": self.request.user.id})
+        print(context)
         return context
+    
+        
 
 
 class EventTypeUpdateView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = EventTypeSerializer
-    # permission_classes = [IsAuthenticated]
     
     def get_queryset(self):
         queryset = EventType.objects.filter(

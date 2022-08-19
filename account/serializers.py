@@ -41,6 +41,15 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = "__all__"
+        
+class UpdateUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+            "image",
+            "first_name",
+            "last_name",
+        ]
 
 
 class LoginUserSerializer(serializers.ModelSerializer):

@@ -8,7 +8,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, generics, status
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.generics import CreateAPIView
-from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from rest_framework.permissions import IsAdminUser, AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -21,6 +21,7 @@ from .serializers import (
     MailChangePasswordSerializer,
     RegisterUserSerializer,
     UserSerializer,
+    UpdateUserSerializer,
 )
 
 
@@ -51,14 +52,23 @@ class RegisterUserView(generics.ListCreateAPIView):
 
 
 class UpdateDestroyUser(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAdminUser]
     serializer_class = UserSerializer
     queryset = User.objects.all()
+    
+class UpdateUserAPIDetail(generics.RetrieveUpdateAPIView):
+    serializer_class = UpdateUserSerializer
+    
+    def get_queryset(self):
+        queryset = User.objects.filter(
+            email=self.request.user.email
+        )
+        return queryset
 
 
 class LoginUserView(CreateAPIView):
     serializer_class = LoginUserSerializer
     queryset = User.objects.all()
+    permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
         email = request.data.get("email")
@@ -92,6 +102,7 @@ class LoginUserView(CreateAPIView):
 class MailPasswordChangeView(APIView):
     serializer_class = MailChangePasswordSerializer
     queryset = User.objects.all()
+    permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
         email = request.data["email"]
@@ -122,7 +133,6 @@ class ChangePasswordView(generics.UpdateAPIView):
 
     serializer_class = ChangePasswordSerializer
     model = User
-    permission_classes = (IsAuthenticated,)
 
     def get_object(self, queryset=None):
         obj = self.request.user

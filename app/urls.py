@@ -50,6 +50,6 @@ urlpatterns = [
         "notification/", NotificationView.as_view(), name="create_notification"
     ),
     path(
-        "bookingtime/<int:pk>", BookingRoomView.as_view(), name="Booking time"
+        "booking_time/<int:pk>", BookingRoomView.as_view(), name="booking time"
     ),
 ]
