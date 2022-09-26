@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "e5d82ffdca255f57b40e158ef00c6aa3bf9bd7fe255f0d0a6a95367c8427ad59"
+            "sha256": "b4c44099f2765f9c6d779c59627acef12df8d6f0fad4c9a7ea055ca625c1bbae"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -179,6 +179,13 @@
             ],
             "markers": "python_version >= '3.7'",
             "version": "==3.8.0"
+        },
+        "future": {
+            "hashes": [
+                "sha256:b1bead90b70cf6ec3f0710ae53a525360fa360d306a86583adc6bf83a4db537d"
+            ],
+            "markers": "python_version >= '2.6' and python_version not in '3.0, 3.1, 3.2, 3.3'",
+            "version": "==0.18.2"
         },
         "gunicorn": {
             "hashes": [
@@ -521,6 +528,13 @@
             ],
             "index": "pypi",
             "version": "==0.1.0"
+        },
+        "tkintertable": {
+            "hashes": [
+                "sha256:fc8f1a726be958e645eece74c6994514caffc1a87d7770183ea753262b870329"
+            ],
+            "index": "pypi",
+            "version": "==1.3.3"
         },
         "toml": {
             "hashes": [

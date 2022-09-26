@@ -25,6 +25,7 @@ requests = "*"
 django-storages = "*"
 django-dropbox-storage = "*"
 tk = "*"
+tkintertable = "*"
 
 [dev-packages]
 flake8 = "*"
