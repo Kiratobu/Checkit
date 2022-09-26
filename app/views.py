@@ -1,5 +1,3 @@
-from turtle import color
-from urllib import request
 import django_filters
 from django_filters import DateFilter
 from django_filters.rest_framework import DjangoFilterBackend

@@ -1,4 +1,3 @@
-from venv import create
 from drf_extra_fields.relations import PresentablePrimaryKeyRelatedField
 from rest_framework import serializers
 
