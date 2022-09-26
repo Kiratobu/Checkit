@@ -128,7 +128,7 @@ class UserParticipantUpdate(
 
 class EventTypeView(generics.ListCreateAPIView):
     serializer_class = EventTypeSerializer
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     
     def get_queryset(self):
         queryset = EventType.objects.filter(
@@ -162,7 +162,7 @@ class RoomView(generics.ListCreateAPIView):
 
 
 class RoomUpdateView(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAdminUser]
+    # permission_classes = [IsAdminUser]
     serializer_class = RoomSerializer
     queryset = Room.objects.all()
     filterset_fields = ["title", "description", "capacity"]
