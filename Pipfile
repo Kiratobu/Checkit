@@ -24,6 +24,7 @@ django-wsgi2 = "*"
 requests = "*"
 django-storages = "*"
 django-dropbox-storage = "*"
+tk = "*"
 
 [dev-packages]
 flake8 = "*"
