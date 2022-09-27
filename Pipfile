@@ -25,6 +25,9 @@ django-storages = "*"
 django-dropbox-storage = "*"
 tk = "*"
 tkintertable = "*"
+django-cors = "*"
+django-cors-middleware = "*"
+django-cors-headers = "3.13"
 
 
 [dev-packages]
