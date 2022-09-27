@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "7509d26a943b2d95a8ca6b92dabfe3f4d9a9595c7d60714176af0d0442b90009"
+            "sha256": "505ed4923767b883510338e9c6abd44db2909ee4ef6769b9307d0c9c1c05994d"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -70,22 +70,6 @@
             ],
             "index": "pypi",
             "version": "==4.1.1"
-        },
-        "django-cors": {
-            "hashes": [
-                "sha256:ba31c9455ddb848e578b26bac3634049951149775b818a35476d2b50350640c3",
-                "sha256:c0e343a28130207c5c52de24ddefdf53e0dd1c6a3aba6771b665f3b7ca71d849"
-            ],
-            "index": "pypi",
-            "version": "==0.1"
-        },
-        "django-cors-middleware": {
-            "hashes": [
-                "sha256:5bbdea85e22909d596e26f6e0dbc174d5521429fa3943ae02a2c6c48e76c88c7",
-                "sha256:856dbe4d7aae65844ccc68acb49c6da7dbf7cbacaf5bcf37019f4c0c60b3be84"
-            ],
-            "index": "pypi",
-            "version": "==1.5.0"
         },
         "django-dropbox-storage": {
             "hashes": [
