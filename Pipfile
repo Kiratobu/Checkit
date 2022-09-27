@@ -28,6 +28,7 @@ tkintertable = "*"
 django-cors = "*"
 django-cors-middleware = "*"
 django-cors-headers = "3.13"
+psycopg2 = "*"
 
 [dev-packages]
 flake8 = "*"
