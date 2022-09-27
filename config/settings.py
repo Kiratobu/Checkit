@@ -55,7 +55,7 @@ INSTALLED_APPS = [
     "rest_framework.permissions",
     "django_filters",
     "account",
-    # 'corsheaders',
+    'corsheaders',
     "rest_framework_simplejwt",
     "app",
     "storages",
