@@ -27,7 +27,7 @@ tk = "*"
 tkintertable = "*"
 django-cors = "*"
 django-cors-middleware = "*"
-django-cors-headers = "*"
+django-cors-headers = "3.13"
 
 [dev-packages]
 flake8 = "*"
