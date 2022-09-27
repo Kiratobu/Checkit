@@ -25,7 +25,7 @@ django-storages = "*"
 django-dropbox-storage = "*"
 tk = "*"
 tkintertable = "*"
-psycopg2 = "*"
+
 
 [dev-packages]
 flake8 = "*"

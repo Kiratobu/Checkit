@@ -55,7 +55,7 @@ INSTALLED_APPS = [
     "rest_framework.permissions",
     "django_filters",
     "account",
-    'corsheaders',
+    # 'corsheaders',
     "rest_framework_simplejwt",
     "app",
     "storages",
@@ -65,7 +65,7 @@ INSTALLED_APPS = [
 AUTH_USER_MODEL = "account.User"
 
 MIDDLEWARE = [
-    "corsheaders.middleware.CorsMiddleware",
+    # "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
