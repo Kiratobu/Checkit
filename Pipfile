@@ -26,6 +26,7 @@ django-storages = "*"
 django-dropbox-storage = "*"
 tk = "*"
 tkintertable = "*"
+django-cors-middleware = "*"
 
 [dev-packages]
 flake8 = "*"
