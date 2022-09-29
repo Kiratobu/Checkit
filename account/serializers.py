@@ -72,3 +72,15 @@ class ChangePasswordSerializer(serializers.Serializer):
     """
     old_password = serializers.CharField(required=True)
     new_password = serializers.CharField(required=True)
+    
+class FirstLoginSerializer(serializers.ModelSerializer):
+    new_password = serializers.CharField(required=True)
+    check_password = serializers.CharField(required=True)
+    
+    class Meta:
+        model = User
+        """
+        Serializer for first login endpoint.
+        """
+        fields = ["image","new_password","check_password"]
+    

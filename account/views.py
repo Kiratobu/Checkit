@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate
 from django.core.mail import send_mail
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, generics, status
-from rest_framework.exceptions import AuthenticationFailed
+from rest_framework.exceptions import AuthenticationFailed, ValidationError
 from rest_framework.generics import CreateAPIView
 from rest_framework.permissions import IsAdminUser, AllowAny
 from rest_framework.response import Response
@@ -21,6 +21,7 @@ from .serializers import (
     MailChangePasswordSerializer,
     RegisterUserSerializer,
     UserSerializer,
+    FirstLoginSerializer,
     UpdateUserSerializer,
 )
 
@@ -164,3 +165,40 @@ class ChangePasswordView(generics.UpdateAPIView):
             return Response(response)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class FirstLoginView(generics.UpdateAPIView):
+    serializer_class = FirstLoginSerializer
+    model = User
+    
+    def get_object(self, queryset=None):
+        obj = self.request.user
+        return obj
+
+    def update(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        serializer = self.get_serializer(data=request.data)
+
+        if serializer.is_valid():
+            password_1 = serializer.data.get("new_password")
+            password_2 = serializer.data.get("check_password")
+            
+            if not password_2:
+                raise ValidationError("You must confirm your password")
+            if password_1 != password_2:
+                raise ValidationError("Your passwords do not match")
+            
+            self.object.set_password(serializer.data.get("new_password"))
+            self.object.save()
+            response = {
+                "status": "success",
+                "code": status.HTTP_200_OK,
+                "message": "Password updated successfully",
+                "data": [],
+            }
+
+            return Response(response)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    

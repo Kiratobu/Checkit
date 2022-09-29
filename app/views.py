@@ -37,19 +37,27 @@ from app.serializers import (
 class OrganisationView(generics.ListCreateAPIView):
     serializer_class = OrganisationSerializer
     queryset = Organisation.objects.all()
-    permission_classes = [IsAdminUser]
+    # permission_classes = [IsAdminUser]
 
 
 class PostView(generics.ListCreateAPIView):
     serializer_class = PostSerializer
     queryset = Post.objects.all()
-    permission_classes = [IsAdminUser]
+    # permission_classes = [IsAdminUser]
+    
+class PostUpdateView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = PostSerializer
+    queryset = Post.objects.all()
 
 
 class BranchView(generics.ListCreateAPIView):
     serializer_class = BranchSerializer
     queryset = Branch.objects.all()
-    permission_classes = [IsAdminUser]
+    # permission_classes = [IsAdminUser]
+    
+class BranchUpdateView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = BranchSerializer
+    queryset = Branch.objects.all()
 
 
 class UserPostView(generics.ListCreateAPIView):
@@ -60,7 +68,7 @@ class UserPostView(generics.ListCreateAPIView):
         DjangoFilterBackend,
         filters.SearchFilter,
     )
-    permission_classes = [IsAdminUser]
+    # permission_classes = [IsAdminUser]
 
 
 class BranchPostView(generics.ListCreateAPIView):
@@ -71,7 +79,7 @@ class BranchPostView(generics.ListCreateAPIView):
         DjangoFilterBackend,
         filters.SearchFilter,
     )
-    permission_classes = [IsAdminUser]
+    # permission_classes = [IsAdminUser]
 
 
 class DateFilter(django_filters.FilterSet):

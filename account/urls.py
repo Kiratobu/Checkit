@@ -6,7 +6,8 @@ from account.views import (
     MailPasswordChangeView,
     RegisterUserView,
     UpdateDestroyUser,
-    UpdateUserAPIDetail
+    UpdateUserAPIDetail,
+    FirstLoginView
 )
 
 urlpatterns = [
@@ -28,4 +29,5 @@ urlpatterns = [
         ChangePasswordView.as_view(),
         name="change-password",
     ),
+    path("first_login/",FirstLoginView.as_view(),name="first_login")
 ]
